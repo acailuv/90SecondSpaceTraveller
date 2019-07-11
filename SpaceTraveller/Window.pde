@@ -6,13 +6,13 @@ class Window {
     private int strokeColor = 255;
     private int r = 100, g = 100, b = 100, a = 100;
     private boolean active = true;
-    
+
     public Window(Window window) {
         this.startX = window.startX;
         this.startY = window.startY;
         this.bgColor = window.bgColor;
     }
-    
+
     public Window(int startX, int startY, Color bgColor) {
         this.startX = startX;
         this.startY = startY;
@@ -22,12 +22,12 @@ class Window {
         b = bgColor.b;
         a = bgColor.a;
     }
-    
+
     public Window(int startX, int startY) {
         this.startX = startX;
         this.startY = startY;
     }
-    
+
     public Window(float startX, float startY, Color bgColor) {
         this.startX = (int)startX;
         this.startY = (int)startY;
@@ -37,15 +37,15 @@ class Window {
         b = bgColor.b;
         a = bgColor.a;
     }
-    
+
     public Window(float startX, float startY) {
         this.startX = (int)startX;
         this.startY = (int)startY;
     }
-    
+
     public void drawWindow(boolean stroke) {
-        if(active) {
-            if(stroke) {
+        if (active) {
+            if (stroke) {
                 strokeWeight(strokeWeight);
                 strokeCap(ROUND);
                 stroke(strokeColor);
@@ -56,10 +56,10 @@ class Window {
             rect(startX, startY, width-2, height-startY-2);
         }
     }
-    
+
     public void drawWindow(int endX, int endY, boolean stroke) {
-        if(active) {
-            if(stroke) {
+        if (active) {
+            if (stroke) {
                 strokeWeight(strokeWeight);
                 strokeCap(ROUND);
                 stroke(strokeColor);
@@ -70,14 +70,14 @@ class Window {
             rect(startX, startY, endX, endY);
         }
     }
-    
+
     public void changeColor(Color newColor) {
         r = newColor.r;
         g = newColor.g;
         b = newColor.b;
         a = newColor.a;
     }
-    
+
     public boolean isHover() {
         if (mouseX >= startX && mouseX < width && mouseY < height && mouseY >= startY && active) {
             return true;
@@ -89,9 +89,8 @@ class Window {
     public void destroy() {
         active = false;
     }
-    
+
     public void create() {
-         active = true;   
+        active = true;
     }
-    
 }
