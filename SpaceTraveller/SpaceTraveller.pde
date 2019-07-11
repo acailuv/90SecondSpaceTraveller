@@ -3,6 +3,7 @@ public Cockpit cockpit;
 public Color normalColor = new Color(100, 100, 100, 100);
 public Color dangerColor = new Color(255, 100, 100, 100);
 public Color aiColor = new Color(100, 100, 255, 100);
+public Ship s;
 
 void setup() {
     size(800, 600);
