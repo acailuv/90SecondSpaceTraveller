@@ -41,7 +41,7 @@ public class StringRandomizer {
 
     private boolean checkVowel(Character c) {
         Character[] vowels = {'a', 'i', 'u', 'e', 'o', 'A', 'I', 'U', 'E', 'O'};
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<10; i++) {
             if (c==vowels[i]) {
                 return true;
             }

@@ -5,18 +5,27 @@ public Color normalColor = new Color(100, 100, 100, 100);
 public Color dangerColor = new Color(255, 100, 100, 100);
 public Color aiColor = new Color(100, 100, 255, 100);
 public Ship s;
+public Conversation readyToAdventure;
 
 void setup() {
+    frameRate(60);
     size(800, 600);
     cockpit = new Cockpit(0, 0);
     cockpit.changeTheme(cockpit.GREEN_THEME);
     
     //ship
-    s = new Ship(100);
+    s = new Ship(100, cockpit);
+    s.credits = 200;
 
     //dialog test
-    tw = new TextWindow(new Window(0, 400), "Via AI", "Noticable Gravitational Force has been detected. I suggest you to counteract the neighboring planet's gravitational force.");
+    tw = new TextWindow(new Window(0, 400), "Via AI", "Welcome back! Ready to go on another adventure?");
     tw.window.changeColor(aiColor);
+    
+    //conversation test
+    readyToAdventure = new Conversation();
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Welcome back! Ready to go on another adventure?"));
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Yeah. Let's go."));
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Understood. I'll assist you along the way."));
 
     //shop test
     int[] aa = {
@@ -28,21 +37,23 @@ void setup() {
         new Cargo("Space Cat", "\"Shhh, let's keep this between us.\"", aa),
         new Cargo("Mystery Goo", "It's White. And sticky too. Hmm..", aa)
     };
-    shop = new Shop(testCargo);
+    shop = new Shop(testCargo, s);
 }
 
 void draw() {
     background(0, 0, 20);
-    windowClickHandler();
-
+    starsEffect();
     //draw windows
-    //tw.drawWindow(0);
-    //cockpit.drawCockpit();
-    shop.drawShop();
+    if (shop.active) {
+        shop.drawShop();
+    } else {
+        s.cockpit.drawCockpit();
+        readyToAdventure.execute();
+    }
 }
 
-void windowClickHandler() { //handle dialog box clicks
-    if (tw.window.isHover() && mousePressed) {
-        tw.destroy();
-    }
+void starsEffect() {
+    fill(255);
+    point(random(0, 800), random(0,600));
+    delay(10);
 }

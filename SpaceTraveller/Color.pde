@@ -7,4 +7,11 @@ public class Color {
         this.b = b;
         this.a = a;
     }
+    
+    public Color(int c) {
+        this.r = c;
+        this.g = c;
+        this.b = c;
+        this.a = 255;
+    }
 }

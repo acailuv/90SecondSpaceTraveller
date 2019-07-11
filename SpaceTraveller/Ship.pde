@@ -12,9 +12,13 @@ class Ship {
     protected float fuelCapacity; // max fuel
     protected float fuel; // current fuel, refilled to fuelCapacity every level
     protected int credits; //currency
+    protected HashMap<String, Integer> inventory = new HashMap<String, Integer>();
+    protected int efficiencyLvl = 1, maxThrusterLvl = 1, fuelCapLvl = 1;
+    protected Cockpit cockpit;
 
-    public Ship(float mass) {
+    public Ship(float mass, Cockpit cockpit) {
         this.mass = mass;
+        this.cockpit = cockpit;
         velocityX = 10;
         velocityY = 0;
         positionX = 0;
@@ -24,6 +28,7 @@ class Ship {
         brakeFloor = 10;
         brakeSpeed = 1;
         fuel = 100;
+        fuelCapacity = 100;
     }
 
     public float getAngle() {

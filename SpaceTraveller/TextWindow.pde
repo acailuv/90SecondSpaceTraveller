@@ -69,6 +69,10 @@ public class TextWindow {
                     currentChar = 1;
                 }
             }
+            if (window.isHover() && mousePressed && active) {
+                this.destroy();
+                delay(100);
+            }
         }
     }
 

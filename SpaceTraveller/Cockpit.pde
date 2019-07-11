@@ -9,6 +9,13 @@ public class Cockpit {
         new Color(0, 200, 0, 255), //"background"
         new Color(0, 255, 0, 255) //"foreground"
     };
+    
+    private final Color BLUE_THEME[] = {
+        new Color(0, 0, 200, 50), //back panel
+        new Color(0, 0, 200, 100), //window
+        new Color(0, 0, 200, 255), //"background"
+        new Color(0, 0, 255, 255) //"foreground"
+    };
 
     protected Color c;
 
