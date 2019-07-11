@@ -53,7 +53,7 @@ class Window {
                 strokeWeight(0);
             }
             fill(r, g, b, a);
-            rect(startX, startY, width-2, height-2);
+            rect(startX, startY, width-2, height-startY-2);
         }
     }
     
@@ -79,7 +79,7 @@ class Window {
     }
     
     public boolean isHover() {
-        if (mouseX >= startX && mouseX < width && mouseY < height && mouseY >= startY) {
+        if (mouseX >= startX && mouseX < width && mouseY < height && mouseY >= startY && active) {
             return true;
         } else {
             return false;

@@ -34,23 +34,25 @@ public class TextWindow {
         this.padding = fontSize;
     }
     
-    public void drawWindow() {
+    public void drawWindow(int mode) {
         if(active) {
             int ln = 1; //current line
             int currentChar = 1;
             window.drawWindow(true);
             
             //draw name
-            for(int i=0; i<name.length(); i++) {
-                textFont(NAME_FONT);
-                if(nameColor == null) {
-                    fill(100, 255, 255);
-                } else {
-                    fill(nameColor.r, nameColor.g, nameColor.b, nameColor.a);
+            if(mode == 0) {
+                for(int i=0; i<name.length(); i++) {
+                    textFont(NAME_FONT);
+                    if(nameColor == null) {
+                        fill(100, 255, 255);
+                    } else {
+                        fill(nameColor.r, nameColor.g, nameColor.b, nameColor.a);
+                    }
+                    text(name.charAt(i), (padding+window.startX)+i*padding, window.startY+padding*2*ln);
                 }
-                text(name.charAt(i), (padding+window.startX)+i*padding, window.startY+padding*2*ln);
+                ln++;
             }
-            ln++;
             
             //draw main text
             for(int i=0; i<text.length(); i++) {

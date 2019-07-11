@@ -1,5 +1,6 @@
 public TextWindow tw;
 public Cockpit cockpit;
+public Shop shop;
 public Color normalColor = new Color(100, 100, 100, 100);
 public Color dangerColor = new Color(255, 100, 100, 100);
 public Color aiColor = new Color(100, 100, 255, 100);
@@ -13,6 +14,15 @@ void setup() {
     //dialog test
     tw = new TextWindow(new Window(0, 400), "Via AI", "Immense Gravitational Force has been detected. I suggest you to counteract the neighboring planet's gravitational force.");
     tw.window.changeColor(aiColor);
+    
+    //shop test
+    int[] aa = {
+        100, 200
+    };
+    Cargo[] testCargo = {
+        new Cargo("Sugar", "Commodity of the commons.", aa)
+    };
+    shop = new Shop(testCargo);
 }
 
 void draw() {
@@ -20,8 +30,9 @@ void draw() {
     windowClickHandler();
     
     //draw windows
-    tw.drawWindow();
-    cockpit.drawCockpit();
+    //tw.drawWindow(0);
+    //cockpit.drawCockpit();
+    shop.drawShop();
 }
 
 void windowClickHandler() { //handle dialog box clicks
