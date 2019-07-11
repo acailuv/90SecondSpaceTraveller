@@ -71,7 +71,7 @@ public class TextWindow {
             }
             if (window.isHover() && mousePressed && active) {
                 this.destroy();
-                delay(100);
+                delay(200);
             }
         }
     }

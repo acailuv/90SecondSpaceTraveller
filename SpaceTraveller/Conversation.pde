@@ -10,6 +10,11 @@ public class Conversation {
         conversationQueue.add(content);
     }
     
+    public void insertDialogue(TextWindow content, Color windowColor) {
+        content.window.changeColor(windowColor);
+        conversationQueue.add(content);
+    }
+    
     public void changeDialogue(int id, TextWindow newContent) {
         conversationQueue.set(id, newContent);
     }

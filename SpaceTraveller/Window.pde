@@ -1,4 +1,4 @@
-class Window {
+public class Window {
     protected int startX;
     protected int startY;
     protected Color bgColor;

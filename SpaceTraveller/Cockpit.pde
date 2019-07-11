@@ -1,7 +1,14 @@
+import ddf.minim.*;
+
 public class Cockpit {
     protected int startX;
     protected int startY;
     protected Color theme[];
+    private boolean musicPlayed = false;
+    
+    //sound
+    public AudioPlayer player;
+    public Minim minim;
 
     public final Color GREEN_THEME[] = {
         new Color(0, 200, 0, 50), //back panel
@@ -23,8 +30,21 @@ public class Cockpit {
         this.startX = startX;
         this.startY = startY;
     }
+    
+    public Cockpit(int startX, int startY, AudioPlayer player, Minim minim) {
+        this.startX = startX;
+        this.startY = startY;
+        this.player = player;
+        this.minim = minim;
+        this.player = minim.loadFile("journey_bgm.mp3", 2048);
+    }
 
     public void drawCockpit() {
+        if (!musicPlayed) {
+            player.loop();
+            musicPlayed = true;
+        }
+        
         //back panel
         Window backPanel = new Window(startX, startY, theme[0]);
         backPanel.drawWindow(width, 400, false);

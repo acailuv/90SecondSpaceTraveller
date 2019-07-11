@@ -5,6 +5,11 @@ public class Shop {
     private final int MAIN_FONT_PADDING = 16;
     private final int[] SHOP_NAME_LENGTH_RANGE = {4, 8};
     protected boolean active = true;
+    private boolean musicPlayed = false;
+    
+    //sound
+    public AudioPlayer player;
+    public Minim minim;
 
     protected String shopName;
     protected Ship s;
@@ -33,9 +38,22 @@ public class Shop {
         this.s = s;
         updateUpgradePrice();
     }
+    
+    public Shop(Cargo[] cargo, Ship s, AudioPlayer player, Minim minim) {
+        this(cargo);
+        this.s = s;
+        updateUpgradePrice();
+        this.player = player;
+        this.minim = minim;
+        this.player = minim.loadFile("shop_bgm.mp3", 2048);
+    }
 
     public void drawShop() {
         if(active) {
+            if(!musicPlayed) {
+                player.loop();
+                musicPlayed = true;
+            }
             //back panel and shop name
             Window backPanel = new Window(0, 0, shopTheme[0]);
             backPanel.drawWindow(width, height, false);
@@ -97,6 +115,7 @@ public class Shop {
             leave.drawButton("Leave");
             if (mouseX >= ip_StartX+15 && mouseX < ip_StartX+15+width-(width/2-25)-110 && mouseY >= ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING && mouseY < ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING+35 && mousePressed) {
                 s.cockpit.drawCockpit();
+                player.close();
                 this.destroy();
                 delay(100);
             }
