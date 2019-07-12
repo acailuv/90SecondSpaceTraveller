@@ -114,7 +114,7 @@ public class Shop {
             Button leave = new Button(ip_StartX+15, ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING, width-(width/2-25)-110, 35, new Color(255, 0, 0, 150));
             leave.drawButton("Leave");
             if (mouseX >= ip_StartX+15 && mouseX < ip_StartX+15+width-(width/2-25)-110 && mouseY >= ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING && mouseY < ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING+35 && mousePressed) {
-                s.cockpit.drawCockpit();
+                s.cockpit.drawCockpit(s);
                 player.close();
                 this.destroy();
                 delay(100);

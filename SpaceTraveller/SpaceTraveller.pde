@@ -12,6 +12,7 @@ public Color dangerColor = new Color(255, 100, 100, 100);
 public Color aiColor = new Color(100, 100, 255, 100);
 public Ship s;
 public Conversation readyToAdventure;
+public PlanetHandler game;
 
 void setup() {
     frameRate(60);
@@ -51,6 +52,7 @@ void setup() {
         new Cargo("Mystery Goo", "It's White. And sticky too. Hmm..", aa)
     };
     shop = new Shop(testCargo, s, player, minim);
+    game = new PlanetHandler();
 }
 
 void draw() {
@@ -59,11 +61,27 @@ void draw() {
     if (shop.active) {
         shop.drawShop();
     } else {
-        s.cockpit.drawCockpit();
+        s.cockpit.drawCockpit(s);
         readyToAdventure.execute();
+        if(game.gameStart == false) { // use this as a base to start the ship moving
+          game.gameStart = true;
+          game.generatePlanets();
+          s.finishLine = game.finishLine;
+        } else {
+          // if the game is running, calculate ALL of the planet gravity forces acting on the ship
+          game.universalGravity(s);
+          //System.out.println(s.positionX + " " + s.positionY);
+        }
     }
 }
-
+void keyPressed() {
+  if(shop.active == false && s.fuel > 0) {
+    if(key == 'w') s.bottomThruster();
+    if(key == 's') s.topThruster();
+    if(key == 'a') s.brakePulse();
+    if(key == 'd') s.mainThruster();
+  }
+}
 void stop() {
     player.close();
     minim.stop();
