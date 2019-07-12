@@ -48,11 +48,30 @@ public class Button {
         }
     }
     
+    public void drawButton(String text, int textX, int textY) {
+        if(active) {
+            applyHoverEffect();
+            fill(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+            rect(startX, startY, w, h);
+            fill(255);
+            textFont(font);
+            text(text, textX, textY);
+        }
+    }
+    
     private void applyHoverEffect() {
         if (mouseX >= startX && mouseX <= startX+w && mouseY >= startY && mouseY <=startY+h) {
             bgColor.r = Math.max(bgColor.r-100, 0);
             bgColor.g = Math.max(bgColor.g-100, 0);
             bgColor.b = Math.max(bgColor.b-100, 0);
+        }
+    }
+    
+    public boolean isClicked() {
+        if (mouseX >= startX && mouseX <= startX+w && mouseY >= startY && mouseY <=startY+h && mousePressed && active) {
+            return true;
+        } else {
+            return false;
         }
     }
     

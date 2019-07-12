@@ -15,11 +15,9 @@ class Ship {
     protected int credits; //currency
     protected HashMap<String, Integer> inventory = new HashMap<String, Integer>();
     protected int efficiencyLvl = 1, maxThrusterLvl = 1, fuelCapLvl = 1;
-    protected Cockpit cockpit;
 
-    public Ship(float mass, Cockpit cockpit) {
+    public Ship(float mass) {
         this.mass = mass;
-        this.cockpit = cockpit;
         velocityX = 10;
         velocityY = 0;
         positionX = 0;

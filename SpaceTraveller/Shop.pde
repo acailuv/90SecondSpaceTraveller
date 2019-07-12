@@ -4,15 +4,10 @@ public class Shop {
     private final int NAME_FONT_PADDING = 24;
     private final int MAIN_FONT_PADDING = 16;
     private final int[] SHOP_NAME_LENGTH_RANGE = {4, 8};
-    protected boolean active = true;
+    protected boolean active = false;
     private boolean musicPlayed = false;
-    
-    //sound
-    public AudioPlayer player;
-    public Minim minim;
 
     protected String shopName;
-    protected Ship s;
     protected int upgrade_EfficiencyPrice, upgrade_FuelCapPrice, upgrade_EngineMaxPowerPrice, upgrade_RefuelPrice;
 
     private final Color shopTheme[] = {
@@ -31,21 +26,8 @@ public class Shop {
             c.finalPrice = (int)random(c.price[0], c.price[1]);
         }
         this.shopName = rnd.generatePlanetName((int)random(SHOP_NAME_LENGTH_RANGE[0], SHOP_NAME_LENGTH_RANGE[1])) + " Interplanetary Station";
-    }
-
-    public Shop(Cargo[] cargo, Ship s) {
-        this(cargo);
-        this.s = s;
         updateUpgradePrice();
-    }
-    
-    public Shop(Cargo[] cargo, Ship s, AudioPlayer player, Minim minim) {
-        this(cargo);
-        this.s = s;
-        updateUpgradePrice();
-        this.player = player;
-        this.minim = minim;
-        this.player = minim.loadFile("shop_bgm.mp3", 2048);
+        player = minim.loadFile("shop_bgm.mp3", 2048);
     }
 
     public void drawShop() {
@@ -114,9 +96,12 @@ public class Shop {
             Button leave = new Button(ip_StartX+15, ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING, width-(width/2-25)-110, 35, new Color(255, 0, 0, 150));
             leave.drawButton("Leave");
             if (mouseX >= ip_StartX+15 && mouseX < ip_StartX+15+width-(width/2-25)-110 && mouseY >= ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING && mouseY < ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING+35 && mousePressed) {
-                s.cockpit.drawCockpit(s);
-                player.close();
+                s.positionX = 0;
+                s.positionY = 0;
+                s.velocityX = 10;
+                s.velocityY = 0;
                 this.destroy();
+                cockpit.create();
                 delay(100);
             }
         }
@@ -275,6 +260,14 @@ public class Shop {
     }
     
     public void destroy() {
+        player.close();
+        minim.stop();
+        musicPlayed = false;
         this.active = false;
+    }
+    
+    public void create() {
+        this.active = true;
+        player = minim.loadFile("shop_bgm.mp3", 2048);
     }
 }

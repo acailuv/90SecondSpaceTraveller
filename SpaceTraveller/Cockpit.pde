@@ -4,11 +4,11 @@ public class Cockpit {
     protected int startX;
     protected int startY;
     protected Color theme[];
+    protected boolean active = false;
+
     private boolean musicPlayed = false;
-    
-    //sound
-    public AudioPlayer player;
-    public Minim minim;
+    private Conversation weHaveArrived;
+    private boolean convInProgress = false;
 
     public final Color GREEN_THEME[] = {
         new Color(0, 200, 0, 50), //back panel
@@ -16,12 +16,19 @@ public class Cockpit {
         new Color(0, 200, 0, 255), //"background"
         new Color(0, 255, 0, 255) //"foreground"
     };
-    
-    private final Color BLUE_THEME[] = {
+
+    public final Color BLUE_THEME[] = {
         new Color(0, 0, 200, 50), //back panel
         new Color(0, 0, 200, 100), //window
         new Color(0, 0, 200, 255), //"background"
         new Color(0, 0, 255, 255) //"foreground"
+    };
+
+    public final Color RED_THEME[] = {
+        new Color(200, 0, 0, 50), //back panel
+        new Color(200, 0, 0, 100), //window
+        new Color(200, 0, 0, 255), //"background"
+        new Color(255, 0, 0, 255) //"foreground"
     };
 
     protected Color c;
@@ -29,14 +36,11 @@ public class Cockpit {
     public Cockpit(int startX, int startY) {
         this.startX = startX;
         this.startY = startY;
-    }
-    
-    public Cockpit(int startX, int startY, AudioPlayer player, Minim minim) {
-        this.startX = startX;
-        this.startY = startY;
-        this.player = player;
-        this.minim = minim;
-        this.player = minim.loadFile("journey_bgm.mp3", 2048);
+        weHaveArrived = new Conversation();
+        weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "We have arrived at an Interplanetary Station. I would kindly suggest you to resupply and buy some cargo as a source of income at out next destination."), aiColor);
+        weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "You", "Alright, see you soon, Via."), normalColor);
+        weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "I Shall wait for you here."), aiColor);
+        player = minim.loadFile("journey_bgm.mp3", 2048);
     }
 
     public void drawCockpit(Ship s) {
@@ -77,7 +81,7 @@ public class Cockpit {
         int cp_EndX = cp_StartX+200, cp_EndY = sp_EndY;
         Window consolePanel = new Window(cp_StartX, cp_StartY, theme[1]);
         consolePanel.drawWindow(cp_EndX, cp_EndY, false);
-
+            
         //progress panel
         int pp_StartX = cp_StartX, pp_StartY = npp_StartY;
         int pp_EndX = cp_EndX, pp_EndY = npp_EndY;
@@ -100,7 +104,7 @@ public class Cockpit {
         fuelPanel.drawWindow(fp_EndX, fp_EndY, false);
         fill(120); // fuel bar color
         rect(fp_StartX, fp_StartY + fp_EndY, fp_EndX, -(fp_EndY)*(s.fuel/s.fuelCapacity));
-
+        
         //engine panel
         int ep_StartX = fp_StartX, ep_StartY = npp_StartY;
         int ep_EndX = ep_StartX-225-245, ep_EndY = npp_EndY;
@@ -112,9 +116,66 @@ public class Cockpit {
         text("Y Velocity: " + String.format("%.1f", s.velocityY), ep_StartX + 5, ep_StartY + padding*2);
         text("Ship Angle: " + String.format("%.1f", degrees(s.getAngle())), ep_StartX + 5, ep_StartY + padding*3);
         
+        if (s.positionX >= s.finishLine) {
+            convInProgress = true;
+            s.positionX = s.finishLine;
+        }
+
+        if (convInProgress) {
+            convInProgress = weHaveArrived.executeReturn();
+            if (!convInProgress) {
+                transferToShop();
+            }
+            s.positionX = s.finishLine;
+        }
+        
+        ////////// DEBUG FUNCTIONALITY TO TEST SHOP
+        //if (keyPressed) {
+        //    if (key == 'p' || key == 'P') {
+        //        convInProgress = true;
+        //        delay(100);
+        //    }
+        //}
+
+        //if (convInProgress) {
+        //    convInProgress = weHaveArrived.executeReturn();
+        //    if (!convInProgress) {
+        //        transferToShop();
+        //    }
+        //}
+    }
+
+    public void destroy() {
+        player.close();
+        minim.stop();
+        this.musicPlayed = false;
+        this.convInProgress = false;
+        this.active = false;
+    }
+
+    public void create() {
+        this.active = true;
+        player = minim.loadFile("journey_bgm.mp3", 2048);
+        player.loop();
     }
 
     public void changeTheme(Color newTheme[]) {
         this.theme = newTheme;
+    }
+
+    private void transferToShop() {
+        weHaveArrived.execute();
+        int[] aa = {
+            100, 200
+        };
+        Cargo[] testCargo = {
+            new Cargo("Sugar", "Commodity of the commons.", aa), 
+            new Cargo("Fusion Cell", "Standard Interplanetary AA Battery.", aa), 
+            new Cargo("Space Cat", "\"Shhh, let's keep this between us.\"", aa), 
+            new Cargo("Mystery Goo", "It's White. And sticky too. Hmm..", aa)
+        };
+        shop = new Shop(testCargo);
+        this.destroy();
+        shop.create();
     }
 }

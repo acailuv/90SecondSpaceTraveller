@@ -67,6 +67,13 @@ public class TextWindow {
                 if (currentChar >= TEXT_PER_ROW) {
                     ln++;
                     currentChar = 1;
+                    try {
+                        if (text.charAt(i+1) == ' ') {
+                            i++;
+                        }
+                    } catch (IndexOutOfBoundsException ex) {
+                        //do nothing, ignore.
+                    }
                 }
             }
             if (window.isHover() && mousePressed && active) {
