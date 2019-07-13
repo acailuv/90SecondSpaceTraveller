@@ -77,6 +77,9 @@ public class TextWindow {
                 }
             }
             if (window.isHover() && mousePressed && active) {
+                seChannel = minim.loadFile("click.mp3", 512);
+                seChannel.play();
+                delay(10);
                 this.destroy();
                 delay(200);
             }

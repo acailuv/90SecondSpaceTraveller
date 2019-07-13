@@ -3,7 +3,7 @@ public class Button {
     protected int w, h;
     protected PFont font = createFont("Consolas", 16);
     protected Color bgColor;
-    private boolean active = true;;
+    private boolean active = true;
     
     public Button(int startX, int startY) {
         this.startX = startX;
@@ -69,6 +69,9 @@ public class Button {
     
     public boolean isClicked() {
         if (mouseX >= startX && mouseX <= startX+w && mouseY >= startY && mouseY <=startY+h && mousePressed && active) {
+            seChannel = minim.loadFile("click.mp3", 512);
+            seChannel.play();
+            delay(10);
             return true;
         } else {
             return false;

@@ -7,15 +7,16 @@ public class MainMenu {
     private boolean active = true;
 
     public MainMenu() {
-        player.close();
+        bgmChannel.close();
         minim.stop();
     }
 
     public void drawMainMenu() {
         if (active) {
             if (!musicPlayed) {
-                player = minim.loadFile("mainmenu_bgm.mp3", 2048);
-                player.loop();
+                bgmChannel = minim.loadFile("mainmenu_bgm.mp3", 2048);
+                bgmChannel.setGain(-15);
+                bgmChannel.loop();
                 musicPlayed = true;
             }
 
@@ -54,8 +55,13 @@ public class MainMenu {
 
     private void destroy() {
         textAlign(LEFT);
-        player.close();
+        bgmChannel.close();
         minim.stop();
         this.active = false;
+    }
+    
+    public void create() {
+        this.active = true;
+        bgmChannel = minim.loadFile("mainmenu_bgm.mp3", 2048);
     }
 }

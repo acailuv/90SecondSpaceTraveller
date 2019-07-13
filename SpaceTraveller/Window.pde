@@ -85,6 +85,17 @@ public class Window {
             return false;
         }
     }
+    
+    public boolean isClicked() {
+        if (mouseX >= startX && mouseX < width && mouseY < height && mouseY >= startY && active && mousePressed) {
+            seChannel = minim.loadFile("click.mp3", 512);
+            seChannel.play();
+            delay(10);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void destroy() {
         active = false;

@@ -39,13 +39,14 @@ public class Cockpit {
         weHaveArrived = new Conversation();
         weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "We have arrived at an Interplanetary Station. I would kindly suggest you to resupply and buy some cargo as a source of income at out next destination."), aiColor);
         weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "You", "Alright, see you soon, Via."), normalColor);
-        weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "I Shall wait for you here."), aiColor);
-        player = minim.loadFile("journey_bgm.mp3", 2048);
+        weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "I shall wait for you here."), aiColor);
+        bgmChannel = minim.loadFile("journey_bgm.mp3", 2048);
     }
 
     public void drawCockpit(Ship s) {
         if (!musicPlayed) {
-            player.loop();
+            bgmChannel.setGain(-15);
+            bgmChannel.loop();
             musicPlayed = true;
         }
         
@@ -146,7 +147,7 @@ public class Cockpit {
     }
 
     public void destroy() {
-        player.close();
+        bgmChannel.close();
         minim.stop();
         this.musicPlayed = false;
         this.convInProgress = false;
@@ -155,8 +156,7 @@ public class Cockpit {
 
     public void create() {
         this.active = true;
-        player = minim.loadFile("journey_bgm.mp3", 2048);
-        player.loop();
+        bgmChannel = minim.loadFile("journey_bgm.mp3", 2048);
     }
 
     public void changeTheme(Color newTheme[]) {
@@ -166,7 +166,7 @@ public class Cockpit {
     private void transferToShop() {
         weHaveArrived.execute();
         int[] aa = {
-            100, 200
+            100, 1000
         };
         Cargo[] testCargo = {
             new Cargo("Sugar", "Commodity of the commons.", aa), 

@@ -27,13 +27,14 @@ public class Shop {
         }
         this.shopName = rnd.generatePlanetName((int)random(SHOP_NAME_LENGTH_RANGE[0], SHOP_NAME_LENGTH_RANGE[1])) + " Interplanetary Station";
         updateUpgradePrice();
-        player = minim.loadFile("shop_bgm.mp3", 2048);
+        bgmChannel = minim.loadFile("shop_bgm.mp3", 2048);
     }
 
     public void drawShop() {
         if(active) {
             if(!musicPlayed) {
-                player.loop();
+                bgmChannel.setGain(-15);
+                bgmChannel.loop();
                 musicPlayed = true;
             }
             //back panel and shop name
@@ -95,7 +96,7 @@ public class Shop {
             //leave button
             Button leave = new Button(ip_StartX+15, ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING, width-(width/2-25)-110, 35, new Color(255, 0, 0, 150));
             leave.drawButton("Leave");
-            if (mouseX >= ip_StartX+15 && mouseX < ip_StartX+15+width-(width/2-25)-110 && mouseY >= ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING && mouseY < ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING+35 && mousePressed) {
+            if (leave.isClicked()) {
                 s.positionX = 0;
                 s.positionY = 0;
                 s.velocityX = 10;
@@ -140,7 +141,7 @@ public class Shop {
         
         //handles clicks
         //buy button
-        if (mouseX >= startX+NAME_FONT_PADDING/3 && mouseX < startX+NAME_FONT_PADDING/3+325/2-25/2 && mouseY >= startY+3*NAME_FONT_PADDING+MAIN_FONT_PADDING-15 && mouseY <= startY+3*NAME_FONT_PADDING+MAIN_FONT_PADDING-15+30 && mousePressed) {
+        if (buy.isClicked()) {
             if (s.credits >= cargo.finalPrice) {
                 s.credits -= cargo.finalPrice;
                 if (s.inventory.get(cargo.name) != null) {
@@ -158,7 +159,7 @@ public class Shop {
         }
         
         //sell button
-        if (mouseX >= startX+NAME_FONT_PADDING/3+(325/2-25/2)+25/2 && mouseX < startX+NAME_FONT_PADDING/3+(325/2-25/2)+25/2+325/2-25/2 && mouseY >= startY+3*NAME_FONT_PADDING+MAIN_FONT_PADDING-15 && mouseY <= startY+3*NAME_FONT_PADDING+MAIN_FONT_PADDING-15+30 && mousePressed) {
+        if (sell.isClicked()) {
             if (s.inventory.get(cargo.name) != null && s.inventory.get(cargo.name) > 0) {
                 s.inventory.put(cargo.name, s.inventory.get(cargo.name)-1);
                 s.credits += cargo.finalPrice;
@@ -211,7 +212,7 @@ public class Shop {
             upgrade.drawButton("Upgrade!", new Color(0));
         }
         
-        if(mouseX >= startX+NAME_FONT_PADDING/3 && mouseX < startX+NAME_FONT_PADDING/3+285 && mouseY >= startY+NAME_FONT_PADDING+MAIN_FONT_PADDING+5 && mouseY <= startY+NAME_FONT_PADDING+MAIN_FONT_PADDING+5+20 && mousePressed) {
+        if(upgrade.isClicked()) {
             switch(upgradeName) {
                 case "Engine Efficiency":
                     if (s.efficiencyLvl < 10 && s.credits >= price) {
@@ -260,7 +261,7 @@ public class Shop {
     }
     
     public void destroy() {
-        player.close();
+        bgmChannel.close();
         minim.stop();
         musicPlayed = false;
         this.active = false;
@@ -268,6 +269,6 @@ public class Shop {
     
     public void create() {
         this.active = true;
-        player = minim.loadFile("shop_bgm.mp3", 2048);
+        bgmChannel = minim.loadFile("shop_bgm.mp3", 2048);
     }
 }
