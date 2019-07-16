@@ -2,7 +2,7 @@ import ddf.minim.*;
 
 public class MainMenu {
     private final PFont TITLE_FONT = createFont("Consolas Bold", 42);
-    
+
     private boolean musicPlayed = false;
     private boolean active = true;
 
@@ -60,7 +60,7 @@ public class MainMenu {
         this.musicPlayed = false;
         this.active = false;
     }
-    
+
     public void create() {
         this.active = true;
         bgmChannel = minim.loadFile("mainmenu_bgm.mp3", 2048);

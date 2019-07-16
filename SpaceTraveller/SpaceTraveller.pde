@@ -10,6 +10,7 @@ public Cockpit cockpit;
 public Shop shop;
 public MainMenu main;
 public GameOver gameOver;
+public WinScreen win;
 
 //conversations
 public Conversation readyToAdventure;
@@ -42,9 +43,12 @@ void setup() {
 
     //main menu
     main = new MainMenu();
-    
+
     //game over
     gameOver = new GameOver();
+
+    //win
+    win = new WinScreen();
 
     //shop test
     int[] aa = {
@@ -96,21 +100,24 @@ void setup() {
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Hmmm... Let's see here. You current have [500 Cr.] That means you are [99,500 Credits] away be the richest traveller in this galaxy. Note that it's nothing compared to the richest person in the whole universe."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "I know, I know. Everyone has to start somewhere."), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "", "[Objective] Obtain 100,000 Space Credits (Cr.)"), normalColor, 1);
+
     game = new PlanetHandler();
 }
 
 void draw() {
     background(0, 0, 20);
     drawStars();
-    
+
     //////// ACTUAL GAME FLOW
+    if (s.credits >= 100000)
+        win.drawWinScreen();
     if (gameOver.active)
         gameOver.drawGameOver();
     else if (main.active)
         main.drawMainMenu();
     else if (cockpit.active) {
         if (tutorial) {
-          tutorial = readyToAdventure.executeReturn();
+            tutorial = readyToAdventure.executeReturn();
         } else {
             if (game.gameStart == false) { // use this as a base to start the ship moving
                 game.gameStart = true;
@@ -126,23 +133,29 @@ void draw() {
         }
     } else if (shop.active)
         shop.drawShop();
-    
+
     //////// SHOP DEBUG
     //shop.active = true;
     //shop.drawShop();
-    
+
     /////// COCKPIT DEBUG
     //cockpit.drawCockpit(s);
-    
+
     /////// MAIN MENU DEBUG
     //main.drawMainMenu();
-    
+
     /////// GAME OVER DEBUG
     //if (main.active)
     //    main.drawMainMenu();
     //else
     //    gameOver.drawGameOver();
-    
+
+    /////// WIN DEBUG
+    //if (main.active)
+    //    main.drawMainMenu();
+    //else
+    //    win.drawWinScreen();
+
     //////// SCENE TRANSITION DEBUG
     //println("Main: " + main.active);
     //println("Cockpit: " + cockpit.active);

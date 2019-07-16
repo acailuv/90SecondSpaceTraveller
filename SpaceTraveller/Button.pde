@@ -4,7 +4,7 @@ public class Button {
     protected PFont font = createFont("Consolas", 16);
     protected Color bgColor;
     private boolean active = true;
-    
+
     public Button(int startX, int startY) {
         this.startX = startX;
         this.startY = startY;
@@ -12,22 +12,22 @@ public class Button {
         h = 75;
         bgColor = new Color(0, 0, 255, 255);
     }
-    
+
     public Button(int startX, int startY, int w, int h) {
         this(startX, startY);
         this.w = w;
         this.h = h;
     }
-    
+
     public Button(int startX, int startY, int w, int h, Color bgColor) {
         this(startX, startY);
         this.w = w;
         this.h = h;
         this.bgColor = bgColor;
     }
-    
+
     public void drawButton(String text) {
-        if(active) {
+        if (active) {
             applyHoverEffect();
             fill(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
             rect(startX, startY, w, h);
@@ -36,9 +36,9 @@ public class Button {
             text(text, startX+w/2-6*text.length(), startY+h/2+4);
         }
     }
-    
+
     public void drawButton(String text, Color fontColor) {
-        if(active) {
+        if (active) {
             applyHoverEffect();
             fill(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
             rect(startX, startY, w, h);
@@ -47,9 +47,9 @@ public class Button {
             text(text, startX+w/2-6*text.length(), startY+h/2+4);
         }
     }
-    
+
     public void drawButton(String text, int textX, int textY) {
-        if(active) {
+        if (active) {
             applyHoverEffect();
             fill(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
             rect(startX, startY, w, h);
@@ -58,7 +58,7 @@ public class Button {
             text(text, textX, textY);
         }
     }
-    
+
     private void applyHoverEffect() {
         if (mouseX >= startX && mouseX <= startX+w && mouseY >= startY && mouseY <=startY+h) {
             bgColor.r = Math.max(bgColor.r-100, 0);
@@ -66,7 +66,7 @@ public class Button {
             bgColor.b = Math.max(bgColor.b-100, 0);
         }
     }
-    
+
     public boolean isClicked() {
         if (mouseX >= startX && mouseX <= startX+w && mouseY >= startY && mouseY <=startY+h && mousePressed && active) {
             seChannel = minim.loadFile("click.mp3", 512);
@@ -77,7 +77,7 @@ public class Button {
             return false;
         }
     }
-    
+
     public void destroy() {
         this.active = false;
     }

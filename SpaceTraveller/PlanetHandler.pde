@@ -10,15 +10,15 @@ class PlanetHandler {
     protected int radiusCeiling = 150;
     protected int deadZone = 800; // Y deadzone from -800 to 800
     protected int finishLine;
-    
+
     protected boolean gameStart = false;
-    
-    
+
+
     public PlanetHandler() {
         planets = new ArrayList<Planet>();
     }
     public void generatePlanets() {
-      planets.clear();
+        planets.clear();
         for (int i = 0; i < planetAmount; i ++) {
             planets.add(new Planet(random(massFloor, massCeiling), (i+1)*gapBetweenPlanets, random(YFloor, YCeiling), random(radiusFloor, radiusCeiling)));
         }

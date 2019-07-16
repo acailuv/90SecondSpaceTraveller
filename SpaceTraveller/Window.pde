@@ -85,7 +85,7 @@ public class Window {
             return false;
         }
     }
-    
+
     public boolean isClicked() {
         if (mouseX >= startX && mouseX < width && mouseY < height && mouseY >= startY && active && mousePressed) {
             seChannel = minim.loadFile("click.mp3", 512);

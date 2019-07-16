@@ -39,7 +39,7 @@ public class Conversation {
             return;
         }
     }
-    
+
     public boolean executeReturn() {
         try {
             if (conversationQueue.get(current).active == false) {
@@ -53,5 +53,4 @@ public class Conversation {
             return false;
         }
     }
-        
 }

@@ -71,7 +71,8 @@ public class TextWindow {
                         if (text.charAt(i+1) == ' ') {
                             i++;
                         }
-                    } catch (IndexOutOfBoundsException ex) {
+                    } 
+                    catch (IndexOutOfBoundsException ex) {
                         //do nothing, ignore.
                     }
                 }

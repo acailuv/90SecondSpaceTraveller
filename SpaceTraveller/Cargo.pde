@@ -9,7 +9,7 @@ public class Cargo {
         this.desc = desc;
         this.price = price;
     }
-    
+
     //public Cargo[] generateCargoList() {
     //    return new Cargo[] = {};
     //}

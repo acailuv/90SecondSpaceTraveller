@@ -10,7 +10,7 @@ public class StringRandomizer {
         //mode 0 -> lowercase;
         //mode 1 -> uppercase;
     }
-    
+
     public StringRandomizer() {
         //do nothing;
     }
