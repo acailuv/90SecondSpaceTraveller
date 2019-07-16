@@ -11,6 +11,7 @@ class Ship {
     protected float thrusterPower; // how much the ship accelerates per second if thrusters are active
     protected float fuelCapacity; // max fuel
     protected float fuel; // current fuel, refilled to fuelCapacity every level
+    protected int startTime;
     protected int credits; //currency
     protected HashMap<String, Integer> inventory = new HashMap<String, Integer>();
     protected int efficiencyLvl = 1, maxThrusterLvl = 1, fuelCapLvl = 1;

@@ -94,6 +94,7 @@ public class Cockpit {
         int imageSize = 50;
         image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + pp_EndY/2);
         fill(255);
+        text("Time Left: " + (millis()-s.startTime)/1000, pp_StartX + padding, pp_StartY + padding);
         text("0", pp_StartX, pp_StartY + pp_EndY/2 + imageSize);
         textAlign(RIGHT);
         text((int)s.finishLine, pp_StartX + pp_EndX, pp_StartY + pp_EndY/2 + imageSize);
