@@ -114,6 +114,7 @@ void draw() {
                 game.gameStart = true;
                 game.generatePlanets();
                 s.finishLine = game.finishLine;
+                s.startTime = millis();
             } else {
                 // if the game is running, calculate ALL of the planet gravity forces acting on the ship
                 System.out.println(game.universalGravity(s));
