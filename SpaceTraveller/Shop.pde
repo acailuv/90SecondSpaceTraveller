@@ -93,7 +93,7 @@ public class Shop {
             textFont(MAIN_FONT);
             text("Efficiency: " + Float.toString((float)Math.floor(s.efficiency*100)) + "%", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING);
             text("Fuel Capacity: " + Float.toString(s.fuelCapacity) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+MAIN_FONT_PADDING);
-            text("Max Power: " + Float.toString(s.maxThrusterPower) + " F", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+2*MAIN_FONT_PADDING);
+            text("Thruster Power: " + Float.toString(s.thrusterPower) + " F", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+2*MAIN_FONT_PADDING);
             text("Current Fuel: " + Float.toString(s.fuel) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+3*MAIN_FONT_PADDING);
             
             //leave button
@@ -233,7 +233,7 @@ public class Shop {
                     break;
                 case "Engine Max Power":
                     if (s.maxThrusterLvl < 10 && s.credits >= price) {
-                        //inflation? balancing? ratio?
+                        s.thrusterPower += s.thrusterPower/s.maxThrusterLvl;
                         s.maxThrusterLvl++;
                         s.credits -= price;
                     }

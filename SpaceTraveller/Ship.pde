@@ -8,7 +8,6 @@ class Ship {
     protected float efficiency;
     protected float brakeFloor; // lower bound of ship horizontal velocity
     protected float brakeSpeed; // how much the ship deaccelerates per second if brakes are active
-    protected float maxThrusterPower; // max thruster power
     protected float thrusterPower; // how much the ship accelerates per second if thrusters are active
     protected float fuelCapacity; // max fuel
     protected float fuel; // current fuel, refilled to fuelCapacity every level
