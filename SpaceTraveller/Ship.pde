@@ -70,9 +70,10 @@ class Ship {
     }
 
     public void brakePulse() {
-        if (velocityX - brakeSpeed/frameRate > brakeFloor) {
-            velocityX -= brakeSpeed/frameRate;
-            fuel -= (1/efficiency)/frameRate;
-        } else velocityX = brakeFloor;
+        if (velocityX > brakeFloor && fuel > (1/efficiency)) {
+            velocityX = brakeFloor;
+            velocityY = 0;
+            fuel -= (1/efficiency);
+        }
     }
 }

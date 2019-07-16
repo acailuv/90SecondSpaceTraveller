@@ -49,7 +49,7 @@ public class Cockpit {
             bgmChannel.loop();
             musicPlayed = true;
         }
-        
+        int padding = 15;
         //back panel
         Window backPanel = new Window(startX, startY, theme[0]);
         backPanel.drawWindow(width, 400, false);
@@ -60,6 +60,8 @@ public class Cockpit {
         Window shipPanel = new Window(sp_StartX, sp_StartY, theme[1]);
         shipPanel.drawWindow(sp_EndX, sp_EndY, false);
         PImage shipSprite = loadImage("ship.png");
+        fill(255);
+        text("Ship Angle: " + String.format("%.1f", degrees(s.getAngle())), sp_StartX + 5, sp_StartY + padding);
         imageMode(CENTER);
         translate(sp_StartX + sp_EndX/2, sp_StartY + sp_EndY/2);
         rotate(-s.getAngle());
@@ -72,7 +74,6 @@ public class Cockpit {
         int npp_EndX = sp_EndX, npp_EndY = npp_StartX+125;
         Window nearbyPlanetPanel = new Window(npp_StartX, npp_StartY, theme[1]);
         nearbyPlanetPanel.drawWindow(npp_EndX, npp_EndY, false);
-        int padding = 15;
         fill(255);
         text("Current X: " + (int)s.positionX, npp_StartX + 5, npp_StartY + padding);
         text("Current Y: " + (int)s.positionY, npp_StartX + 5, npp_StartY + padding*2);
@@ -115,7 +116,7 @@ public class Cockpit {
         fill(255); /// text color
         text("X Velocity: " + String.format("%.1f", s.velocityX), ep_StartX + 5, ep_StartY + padding); // uses the same padding as the one in start nearby planet panel
         text("Y Velocity: " + String.format("%.1f", s.velocityY), ep_StartX + 5, ep_StartY + padding*2);
-        text("Ship Angle: " + String.format("%.1f", degrees(s.getAngle())), ep_StartX + 5, ep_StartY + padding*3);
+        
         
         if (s.positionX >= s.finishLine) {
             convInProgress = true;
