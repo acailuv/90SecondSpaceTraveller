@@ -12,7 +12,7 @@ public class GameOver {
     public GameOver() {
         bgmChannel.close();
         minim.stop();
-        
+
         epilogue = new Conversation();
         epilogue.insertDialogue(new TextWindow(new Window(0, 400), "", "Your ship crashed and you have been drifting through endless space for more than 4 hours."), normalColor, 1);
         epilogue.insertDialogue(new TextWindow(new Window(0, 400), "You", "So, this is it, huh?"), normalColor);
@@ -49,7 +49,7 @@ public class GameOver {
             }
         }
     }
-    
+
     private void generateMenuButtons() {
         //back panel
         Window backPanel = new Window(width/2-150, 2*height/3);
@@ -75,17 +75,18 @@ public class GameOver {
             delay(100);
         }
     }
-    
+
     public void create() {
         this.active = true;
         bgmChannel = minim.loadFile("gameover_bgm.mp3", 2048);
     }
-    
+
     private void destroy() {
         textAlign(LEFT);
         bgmChannel.close();
         minim.stop();
         resetLevel();
+        this.convFlag = false;
         this.active = false;
     }
 }

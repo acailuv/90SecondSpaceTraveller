@@ -10,10 +10,10 @@ class PlanetHandler {
     protected int radiusCeiling = 150;
     protected int deadZone = 800; // Y deadzone from -800 to 800
     protected int finishLine;
-    
+
     protected boolean gameStart = false;
-    
-    
+
+
     public PlanetHandler() {
         planets = new ArrayList<Planet>();
     }

@@ -5,7 +5,7 @@ public class Cockpit {
     protected int startY;
     protected Color theme[];
     protected boolean active = false;
-    
+
     private final PFont MAIN_FONT = createFont("Consolas", 16);
 
     private boolean musicPlayed = false;
@@ -54,13 +54,13 @@ public class Cockpit {
             gameOver.create();
             return;
         }
-        
+
         if (!musicPlayed) {
             bgmChannel.setGain(-15);
             bgmChannel.loop();
             musicPlayed = true;
         }
-        
+
         int padding = 15;
         text("FPS: " + frameRate, 5, 15);
         //back panel
@@ -104,14 +104,14 @@ public class Cockpit {
         int cp_EndX = cp_StartX+200, cp_EndY = sp_EndY;
         Window consolePanel = new Window(cp_StartX, cp_StartY, theme[1]);
         consolePanel.drawWindow(cp_EndX, cp_EndY, false);
-            
+
         //progress panel
         int pp_StartX = cp_StartX, pp_StartY = npp_StartY;
         int pp_EndX = cp_EndX, pp_EndY = npp_EndY;
         Window progressPanel = new Window(pp_StartX, pp_StartY, theme[1]);
         progressPanel.drawWindow(pp_EndX, pp_EndY, false);
         float progress = s.positionX/s.finishLine;
-        if(progress > 1) progress = 1;
+        if (progress > 1) progress = 1;
         int imageSize = 50;
         image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + pp_EndY/2);
         fill(255);
@@ -120,7 +120,7 @@ public class Cockpit {
         textAlign(RIGHT);
         text((int)s.finishLine, pp_StartX + pp_EndX, pp_StartY + pp_EndY/2 + imageSize);
         textAlign(LEFT);
-        
+
         //fuel panel
         int fp_StartX = cp_EndX+225, fp_StartY = sp_StartY;
         int fp_EndX = fp_StartX-225-245, fp_EndY = sp_EndY;
@@ -128,18 +128,18 @@ public class Cockpit {
         fuelPanel.drawWindow(fp_EndX, fp_EndY, false);
         fill(120); // fuel bar color
         rect(fp_StartX, fp_StartY + fp_EndY, fp_EndX, -(fp_EndY)*(s.fuel/s.fuelCapacity));
-        
+
         //engine panel
         int ep_StartX = fp_StartX, ep_StartY = npp_StartY;
         int ep_EndX = ep_StartX-225-245, ep_EndY = npp_EndY;
         Window enginePanel = new Window(ep_StartX, ep_StartY, theme[1]);
         enginePanel.drawWindow(ep_EndX, ep_EndY, false);
-        
+
         fill(255); /// text color
         text("X Velocity: " + String.format("%.1f", s.velocityX), ep_StartX + 5, ep_StartY + padding); // uses the same padding as the one in start nearby planet panel
         text("Y Velocity: " + String.format("%.1f", s.velocityY), ep_StartX + 5, ep_StartY + padding*2);
-        
-        
+
+
         if (s.positionX >= s.finishLine) {
             convInProgress = true;
             s.positionX = s.finishLine;
@@ -152,7 +152,7 @@ public class Cockpit {
             }
             s.positionX = s.finishLine;
         }
-        
+
         ////////// DEBUG FUNCTIONALITY TO TEST SHOP
         //if (keyPressed) {
         //    if (key == 'p' || key == 'P') {

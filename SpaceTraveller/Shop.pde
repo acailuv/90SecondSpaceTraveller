@@ -31,11 +31,11 @@ public class Shop {
     }
 
     public void drawShop() {
-        if(s.fuel < 0) {
+        if (s.fuel < 0) {
             s.fuel = 0;
         }
-        if(active) {
-            if(!musicPlayed) {
+        if (active) {
+            if (!musicPlayed) {
                 bgmChannel.setGain(-15);
                 bgmChannel.loop();
                 musicPlayed = true;
@@ -46,7 +46,7 @@ public class Shop {
             fill(255);
             textFont(NAME_FONT);
             text("<" + this.shopName + ">", 25, 25); 
-    
+
             //cargo panel
             int cp_StartX = 25, cp_StartY = 35;
             int cp_EndX = width/2-25, cp_EndY = height-50;
@@ -59,7 +59,7 @@ public class Shop {
                 Cargo c = cargo[i];
                 drawCargoPanel(c, cp_StartX+25, cp_StartY+(i*120)+40);
             }
-    
+
             //workshop panel
             int wp_StartX = cp_EndX+50, wp_StartY = cp_StartY;
             int wp_EndX = width-(width/2-25)-75, wp_EndY = 2*height/3-30;
@@ -75,8 +75,8 @@ public class Shop {
             drawUpgradePanel("Engine Max Power", upgrade_EngineMaxPowerPrice, wp_StartX+25, wp_StartY+offset+40);
             offset += 80;
             drawUpgradePanel("Refuel", upgrade_RefuelPrice, wp_StartX+25, wp_StartY+offset+40);
-    
-    
+
+
             //info panel
             int ip_StartX = wp_StartX, ip_StartY = wp_EndY+58;
             int ip_EndX = width-(width/2-25)-75, ip_EndY = width/3-110;
@@ -95,7 +95,7 @@ public class Shop {
             text("Fuel Capacity: " + Float.toString(s.fuelCapacity) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+MAIN_FONT_PADDING);
             text("Thruster Power: " + Float.toString(s.thrusterPower) + " F", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+2*MAIN_FONT_PADDING);
             text("Current Fuel: " + Float.toString(s.fuel) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+3*MAIN_FONT_PADDING);
-            
+
             //leave button
             Button leave = new Button(ip_StartX+15, ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING, width-(width/2-25)-110, 35, new Color(255, 0, 0, 150));
             leave.drawButton("Leave");
@@ -128,7 +128,7 @@ public class Shop {
         } else {
             text("Cr. " + cargo.finalPrice + "     In Inventory(0)", startX+NAME_FONT_PADDING/3, startY+2*NAME_FONT_PADDING+MAIN_FONT_PADDING);
         }
-        
+
         //buy button
         Button buy;
         if (s.credits >= cargo.finalPrice) {
@@ -137,11 +137,11 @@ public class Shop {
             buy = new Button(startX+NAME_FONT_PADDING/3, startY+3*NAME_FONT_PADDING+MAIN_FONT_PADDING-15, 325/2-25/2, 30, new Color(50, 50, 50, 200));
         }
         buy.drawButton("Buy", new Color(0));
-        
+
         //sell button
         Button sell = new Button(startX+NAME_FONT_PADDING/3+(325/2-25/2)+25/2, startY+3*NAME_FONT_PADDING+MAIN_FONT_PADDING-15, 325/2-25/2, 30, new Color(255, 0, 0, 200));
         sell.drawButton("Sell", new Color(0));
-        
+
         //handles clicks
         //buy button
         if (buy.isClicked()) {
@@ -152,7 +152,7 @@ public class Shop {
                 } else {
                     s.inventory.put(cargo.name, 1);
                 }
-                
+
                 //debug print ship's inventory
                 //for (String i : s.inventory.keySet()) {
                 //    println("Cargo: " + i + "; Amount: " + Integer.toString(s.inventory.get(i)));
@@ -160,7 +160,7 @@ public class Shop {
             }
             delay(100);
         }
-        
+
         //sell button
         if (sell.isClicked()) {
             if (s.inventory.get(cargo.name) != null && s.inventory.get(cargo.name) > 0) {
@@ -169,7 +169,7 @@ public class Shop {
             } else if (s.inventory.get(cargo.name) == null || s.inventory.get(cargo.name) == 0) {
                 //do nothing
             }
-                
+
             //debug print ship's inventory
             //for (String i : s.inventory.keySet()) {
             //    println("Cargo: " + i + "; Amount: " + Integer.toString(s.inventory.get(i)));
@@ -189,7 +189,7 @@ public class Shop {
         fill(0, 255, 0);
         textFont(MAIN_FONT);
         text("Cr. " + price, startX+NAME_FONT_PADDING/3, startY+NAME_FONT_PADDING+MAIN_FONT_PADDING);
-        
+
         //upgrade button
         Button upgrade;
         if (s.credits >= price) {
@@ -214,62 +214,62 @@ public class Shop {
         } else {
             upgrade.drawButton("Upgrade!", new Color(0));
         }
-        
-        if(upgrade.isClicked()) {
+
+        if (upgrade.isClicked()) {
             switch(upgradeName) {
-                case "Engine Efficiency":
-                    if (s.efficiencyLvl < 10 && s.credits >= price) {
-                        s.efficiency += 0.1;
-                        s.efficiencyLvl++;
+            case "Engine Efficiency":
+                if (s.efficiencyLvl < 10 && s.credits >= price) {
+                    s.efficiency += 0.1;
+                    s.efficiencyLvl++;
+                    s.credits -= price;
+                }
+                break;
+            case "Fuel Tank Capacity":
+                if (s.fuelCapLvl < 10 && s.credits >= price) {
+                    s.fuelCapacity += s.fuelCapacity;
+                    s.fuelCapLvl++;
+                    s.credits -= price;
+                }
+                break;
+            case "Engine Max Power":
+                if (s.maxThrusterLvl < 10 && s.credits >= price) {
+                    s.thrusterPower += s.thrusterPower/s.maxThrusterLvl;
+                    s.maxThrusterLvl++;
+                    s.credits -= price;
+                }
+                break;
+            case "Refuel":
+                if (s.fuel < s.fuelCapacity) {
+                    if (s.credits >= price) {
+                        s.fuel = s.fuelCapacity;
                         s.credits -= price;
+                    } else if (s.credits >= 7) {
+                        int amountOfFuelRestored = s.credits/7;
+                        s.fuel += amountOfFuelRestored;
+                        s.credits -= amountOfFuelRestored*7;
                     }
-                    break;
-                case "Fuel Tank Capacity":
-                    if (s.fuelCapLvl < 10 && s.credits >= price) {
-                        s.fuelCapacity += s.fuelCapacity;
-                        s.fuelCapLvl++;
-                        s.credits -= price;
-                    }
-                    break;
-                case "Engine Max Power":
-                    if (s.maxThrusterLvl < 10 && s.credits >= price) {
-                        s.thrusterPower += s.thrusterPower/s.maxThrusterLvl;
-                        s.maxThrusterLvl++;
-                        s.credits -= price;
-                    }
-                    break;
-                case "Refuel":
-                    if (s.fuel < s.fuelCapacity) {
-                        if (s.credits >= price) {
-                            s.fuel = s.fuelCapacity;
-                            s.credits -= price;
-                        } else if (s.credits >= 7) {
-                            int amountOfFuelRestored = s.credits/7;
-                            s.fuel += amountOfFuelRestored;
-                            s.credits -= amountOfFuelRestored*7;
-                        }
-                    }
-                    break;
+                }
+                break;
             }
             updateUpgradePrice();
             delay(100);
         }
     }
-    
+
     private void updateUpgradePrice() {
         upgrade_EfficiencyPrice = (int)Math.pow(10, s.efficiencyLvl);
         upgrade_FuelCapPrice = (int)Math.pow(10, s.fuelCapLvl);
         upgrade_EngineMaxPowerPrice = (int)Math.pow(10, s.maxThrusterLvl);
         upgrade_RefuelPrice = (int)(7* (s.fuelCapacity - s.fuel));
     }
-    
+
     public void destroy() {
         bgmChannel.close();
         minim.stop();
         musicPlayed = false;
         this.active = false;
     }
-    
+
     public void create() {
         this.active = true;
         bgmChannel = minim.loadFile("shop_bgm.mp3", 2048);
