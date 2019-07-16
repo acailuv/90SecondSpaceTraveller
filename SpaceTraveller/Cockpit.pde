@@ -5,6 +5,7 @@ public class Cockpit {
     protected int startY;
     protected Color theme[];
     protected boolean active = false;
+    protected int lostZone = 1000;
 
     private final PFont MAIN_FONT = createFont("Consolas", 16);
 
@@ -48,7 +49,7 @@ public class Cockpit {
     public void drawCockpit(Ship s) {
         textFont(MAIN_FONT);
         String verdict = game.universalGravity(s);
-        if(verdict == "Collision" || (millis()-s.startTime)/1000 > 90) {
+        if(verdict == "Collision" || (millis()-s.startTime)/1000 > 90 || s.positionY > lostZone || s.positionY < -lostZone) {
             s.fuel = s.fuelCapacity;
             this.destroy();
             gameOver.create();
