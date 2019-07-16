@@ -48,6 +48,7 @@ public class Cockpit {
     public void drawCockpit(Ship s) {
         textFont(MAIN_FONT);
         if (game.universalGravity(s) == "Collision" || (millis()-s.startTime)/1000 > 90) {
+            s.fuel = s.fuelCapacity;
             this.destroy();
             gameOver.create();
             return;
