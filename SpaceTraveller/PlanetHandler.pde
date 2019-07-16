@@ -2,8 +2,8 @@ class PlanetHandler {
     protected ArrayList <Planet> planets;
     protected int gapBetweenPlanets = 2000;
     protected int planetAmount = 10;
-    protected int massFloor = 200000;
-    protected int massCeiling = 300000;
+    protected int massFloor = 100000;
+    protected int massCeiling = 200000;
     protected int YFloor = -200;
     protected int YCeiling = 200;
     protected int radiusFloor = 100;

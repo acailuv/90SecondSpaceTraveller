@@ -48,6 +48,7 @@ public class Cockpit {
     public void drawCockpit(Ship s) {
         textFont(MAIN_FONT);
         if (game.universalGravity(s) == "Collision" || (millis()-s.startTime)/1000 > 90) {
+            s.fuel = s.fuelCapacity;
             this.destroy();
             gameOver.create();
             return;
@@ -72,6 +73,8 @@ public class Cockpit {
         PImage shipSprite = loadImage("ship.png");
         fill(255);
         text("Ship Angle: " + String.format("%.1f", degrees(s.getAngle())), sp_StartX + 5, sp_StartY + padding);
+        text("Current X: " + (int)s.positionX, sp_StartX + 5, sp_StartY + sp_EndY - 5 - padding);
+        text("Current Y: " + (int)s.positionY, sp_StartX + 5, sp_StartY + sp_EndY - 5);
         imageMode(CENTER);
         translate(sp_StartX + sp_EndX/2, sp_StartY + sp_EndY/2);
         rotate(-s.getAngle());
@@ -85,8 +88,7 @@ public class Cockpit {
         Window nearbyPlanetPanel = new Window(npp_StartX, npp_StartY, theme[1]);
         nearbyPlanetPanel.drawWindow(npp_EndX, npp_EndY, false);
         fill(255);
-        text("Current X: " + (int)s.positionX, npp_StartX + 5, npp_StartY + padding);
-        text("Current Y: " + (int)s.positionY, npp_StartX + 5, npp_StartY + padding*2);
+        
 
         //console panel
         int cp_StartX = sp_EndX+50, cp_StartY = sp_StartY;
@@ -104,7 +106,7 @@ public class Cockpit {
         int imageSize = 50;
         image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + pp_EndY/2);
         fill(255);
-        text("Time Left: " + (90-(millis()-s.startTime)/1000), pp_StartX + padding, pp_StartY + padding);
+        text("Time Left: " + (90-(millis()-s.startTime)/1000), pp_StartX, pp_StartY + padding);
         text("0", pp_StartX, pp_StartY + pp_EndY/2 + imageSize);
         textAlign(RIGHT);
         text((int)s.finishLine, pp_StartX + pp_EndX, pp_StartY + pp_EndY/2 + imageSize);
