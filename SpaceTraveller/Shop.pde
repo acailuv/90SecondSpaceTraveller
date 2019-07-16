@@ -31,6 +31,9 @@ public class Shop {
     }
 
     public void drawShop() {
+        if(s.fuel < 0) {
+            s.fuel = 0;
+        }
         if(active) {
             if(!musicPlayed) {
                 bgmChannel.setGain(-15);
