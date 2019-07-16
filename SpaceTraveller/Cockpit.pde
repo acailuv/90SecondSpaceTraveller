@@ -47,7 +47,8 @@ public class Cockpit {
 
     public void drawCockpit(Ship s) {
         textFont(MAIN_FONT);
-        if (game.universalGravity(s) == "Collision" || (millis()-s.startTime)/1000 > 90) {
+        String verdict = game.universalGravity(s);
+        if(verdict == "Collision" || (millis()-s.startTime)/1000 > 90) {
             s.fuel = s.fuelCapacity;
             this.destroy();
             gameOver.create();
@@ -61,6 +62,7 @@ public class Cockpit {
         }
         
         int padding = 15;
+        text("FPS: " + frameRate, 5, 15);
         //back panel
         Window backPanel = new Window(startX, startY, theme[0]);
         backPanel.drawWindow(width, 400, false);
@@ -88,7 +90,14 @@ public class Cockpit {
         Window nearbyPlanetPanel = new Window(npp_StartX, npp_StartY, theme[1]);
         nearbyPlanetPanel.drawWindow(npp_EndX, npp_EndY, false);
         fill(255);
-        
+        if(verdict == "Go up" || verdict == "Go down") {
+          Planet near = game.getNearestPlanet(s);
+          int textPadding = 13;
+          text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
+          text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
+
+          text(verdict, npp_StartX, npp_StartY + textPadding*4);
+        }
 
         //console panel
         int cp_StartX = sp_EndX+50, cp_StartY = sp_StartY;
