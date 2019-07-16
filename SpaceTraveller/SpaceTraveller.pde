@@ -72,14 +72,14 @@ void setup() {
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Press [W] and [S] to activate your bottom thruster and top thruster respectively. Use this to adjust your angle to dodge planets."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "I sure wish there is a window in this ship..."), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "As old saying goes: \"You cannot always have the good things in life.\". Besides, I was told that making a window requires a ton of work. So my creator, which is also the creator of this ship, decided to scrap that idea."), aiColor);
-    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "How convenient... -.-"), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "How convenient... =.="), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Thank you."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "That was a sarcastic statement, Via."), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Sorry, I could not understand."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Well, I thought AI technology at this age is flawless. Nevermind that, without windows in this ship, I think I'm gonna crash sooner or later."), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Do not worry, I shall assist you in navigating through the universe. I will call out a warning everytime there is a planet nearby."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Also, be wary of the [Lost Sector]."), aiColor);
-    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "What's a lost sector? How come you never mention this to me before?"), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "What's a [Lost Sector]? How come you never mention this to me before?"), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "If you have gone too much upwards or too much downwards, you will enter the [Lost Sector]. It is a very deadly place, so I advise to to remain in your path when travelling across the galaxy."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "As usual, I will warn you when the [Lost Sector] is close as well."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "As you already know, when I warn you about something, There is a display on the lower left that shows you the detail of the oncoming danger. Be sure to check that often."), aiColor);
@@ -104,7 +104,9 @@ void draw() {
     drawStars();
     
     //////// ACTUAL GAME FLOW
-    if (main.active)
+    if (gameOver.active)
+        gameOver.drawGameOver();
+    else if (main.active)
         main.drawMainMenu();
     else if (cockpit.active) {
         if (tutorial) {
@@ -145,6 +147,7 @@ void draw() {
     //println("Main: " + main.active);
     //println("Cockpit: " + cockpit.active);
     //println("Shop: " + shop.active);
+    //println("Game Over: " + gameOver.active);
 }
 void keyPressed() {
     if (shop.active == false && s.fuel > 0) {
@@ -169,4 +172,13 @@ private void drawStars() {
         fill(255);
         circle(random(0, 800), random(0, 600), random(1, 3));
     }
+}
+
+public void resetLevel() {
+    s.positionX = 0;
+    s.positionY = 0;
+    s.velocityX = 10;
+    s.velocityY = 0;
+    s.startTime = millis();
+    game.generatePlanets();
 }

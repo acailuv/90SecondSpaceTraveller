@@ -57,6 +57,7 @@ public class MainMenu {
         textAlign(LEFT);
         bgmChannel.close();
         minim.stop();
+        this.musicPlayed = false;
         this.active = false;
     }
     

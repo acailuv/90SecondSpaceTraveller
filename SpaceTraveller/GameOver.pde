@@ -14,6 +14,7 @@ public class GameOver {
         minim.stop();
         
         epilogue = new Conversation();
+        epilogue.insertDialogue(new TextWindow(new Window(0, 400), "", "Your ship crashed and you have been drifting through endless space for more than 4 hours."), normalColor, 1);
         epilogue.insertDialogue(new TextWindow(new Window(0, 400), "You", "So, this is it, huh?"), normalColor);
         epilogue.insertDialogue(new TextWindow(new Window(0, 400), "Via AI (Bodysuit)", "WARNING: Remaining oxygen level: 3.75%. Oxygen will be fully depleted in: 3 minutes."), dangerColor);
         epilogue.insertDialogue(new TextWindow(new Window(0, 400), "You", "Via, I'm scared."), normalColor);
@@ -75,10 +76,16 @@ public class GameOver {
         }
     }
     
+    public void create() {
+        this.active = true;
+        bgmChannel = minim.loadFile("gameover_bgm.mp3", 2048);
+    }
+    
     private void destroy() {
         textAlign(LEFT);
         bgmChannel.close();
         minim.stop();
+        resetLevel();
         this.active = false;
     }
 }

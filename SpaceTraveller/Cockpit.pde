@@ -5,6 +5,8 @@ public class Cockpit {
     protected int startY;
     protected Color theme[];
     protected boolean active = false;
+    
+    private final PFont MAIN_FONT = createFont("Consolas", 16);
 
     private boolean musicPlayed = false;
     private Conversation weHaveArrived;
@@ -44,11 +46,19 @@ public class Cockpit {
     }
 
     public void drawCockpit(Ship s) {
+        textFont(MAIN_FONT);
+        if (game.universalGravity(s) == "Collision" || (millis()-s.startTime)/1000 > 90) {
+            this.destroy();
+            gameOver.create();
+            return;
+        }
+        
         if (!musicPlayed) {
             bgmChannel.setGain(-15);
             bgmChannel.loop();
             musicPlayed = true;
         }
+        
         int padding = 15;
         //back panel
         Window backPanel = new Window(startX, startY, theme[0]);
@@ -94,7 +104,7 @@ public class Cockpit {
         int imageSize = 50;
         image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + pp_EndY/2);
         fill(255);
-        text("Time Left: " + (millis()-s.startTime)/1000, pp_StartX + padding, pp_StartY + padding);
+        text("Time Left: " + (90-(millis()-s.startTime)/1000), pp_StartX + padding, pp_StartY + padding);
         text("0", pp_StartX, pp_StartY + pp_EndY/2 + imageSize);
         textAlign(RIGHT);
         text((int)s.finishLine, pp_StartX + pp_EndX, pp_StartY + pp_EndY/2 + imageSize);
