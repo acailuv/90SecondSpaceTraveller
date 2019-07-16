@@ -8,7 +8,7 @@ public class Shop {
     private boolean musicPlayed = false;
 
     protected String shopName;
-    protected int upgrade_EfficiencyPrice, upgrade_FuelCapPrice, upgrade_EngineMaxPowerPrice, upgrade_RefuelPrice;
+    protected int upgrade_EfficiencyPrice, upgrade_FuelCapPrice, upgrade_PassiveIncomePrice, upgrade_RefuelPrice;
 
     private final Color shopTheme[] = {
         new Color(0, 0, 200, 50), //back panel
@@ -28,6 +28,7 @@ public class Shop {
         this.shopName = rnd.generatePlanetName((int)random(SHOP_NAME_LENGTH_RANGE[0], SHOP_NAME_LENGTH_RANGE[1])) + " Interplanetary Station";
         updateUpgradePrice();
         bgmChannel = minim.loadFile("shop_bgm.mp3", 2048);
+        s.credits += s.passiveIncome;
     }
 
     public void drawShop() {
@@ -72,7 +73,7 @@ public class Shop {
             drawUpgradePanel("Engine Efficiency", upgrade_EfficiencyPrice, wp_StartX+25, wp_StartY+40);
             drawUpgradePanel("Fuel Tank Capacity", upgrade_FuelCapPrice, wp_StartX+25, wp_StartY+offset+40);
             offset += 80;
-            drawUpgradePanel("Engine Max Power", upgrade_EngineMaxPowerPrice, wp_StartX+25, wp_StartY+offset+40);
+            drawUpgradePanel("Passive Income", upgrade_PassiveIncomePrice, wp_StartX+25, wp_StartY+offset+40);
             offset += 80;
             drawUpgradePanel("Refuel", upgrade_RefuelPrice, wp_StartX+25, wp_StartY+offset+40);
 
@@ -93,7 +94,7 @@ public class Shop {
             textFont(MAIN_FONT);
             text("Efficiency: " + Float.toString((float)Math.floor(s.efficiency*100)) + "%", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING);
             text("Fuel Capacity: " + Float.toString(s.fuelCapacity) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+MAIN_FONT_PADDING);
-            text("Thruster Power: " + Float.toString(s.thrusterPower) + " F", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+2*MAIN_FONT_PADDING);
+            text("Passive Income: " + Integer.toString(s.passiveIncome) + " Cr.", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+2*MAIN_FONT_PADDING);
             text("Current Fuel: " + Float.toString(s.fuel) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+3*MAIN_FONT_PADDING);
 
             //leave button
@@ -104,6 +105,7 @@ public class Shop {
                 s.positionY = 0;
                 s.velocityX = 10;
                 s.velocityY = 0;
+                resetLevel();
                 this.destroy();
                 cockpit.create();
                 delay(100);
@@ -231,10 +233,10 @@ public class Shop {
                     s.credits -= price;
                 }
                 break;
-            case "Engine Max Power":
-                if (s.maxThrusterLvl < 10 && s.credits >= price) {
-                    s.thrusterPower += s.thrusterPower/s.maxThrusterLvl;
-                    s.maxThrusterLvl++;
+            case "Passive Income":
+                if (s.passiveIncomeLvl < 10 && s.credits >= price) {
+                    s.passiveIncome += s.passiveIncome;
+                    s.passiveIncomeLvl++;
                     s.credits -= price;
                 }
                 break;
@@ -259,7 +261,7 @@ public class Shop {
     private void updateUpgradePrice() {
         upgrade_EfficiencyPrice = (int)Math.pow(10, s.efficiencyLvl);
         upgrade_FuelCapPrice = (int)Math.pow(10, s.fuelCapLvl);
-        upgrade_EngineMaxPowerPrice = (int)Math.pow(10, s.maxThrusterLvl);
+        upgrade_PassiveIncomePrice = (int)Math.pow(10, s.passiveIncomeLvl);
         upgrade_RefuelPrice = (int)(7* (s.fuelCapacity - s.fuel));
     }
 

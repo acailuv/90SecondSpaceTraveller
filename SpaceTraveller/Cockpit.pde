@@ -13,6 +13,9 @@ public class Cockpit {
     private Conversation weHaveArrived;
     private boolean convInProgress = false;
 
+    private String goUp, goDown, lostSectorUp, lostSectorDown;
+    private TextWindow warningWindow;
+
     public final Color GREEN_THEME[] = {
         new Color(0, 200, 0, 50), //back panel
         new Color(0, 200, 0, 100), //window
@@ -44,12 +47,18 @@ public class Cockpit {
         weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "You", "Alright, see you soon, Via."), normalColor);
         weHaveArrived.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "I shall wait for you here."), aiColor);
         bgmChannel = minim.loadFile("journey_bgm.mp3", 2048);
+
+        goUp = "Gravitational Force Detected! Suggestion: [Pull up]!";
+        goDown = "It seems that an obstacle is nearby! [Go Down]!";
+        lostSectorUp = "[Lost Sector] imminent! [Pull up]!";
+        lostSectorDown = "Master, it seems that we are approaching [Lost Sector]. [Go Down]!";
+        warningWindow = new TextWindow(new Window(0, 400), "Via AI", "", dangerColor);
     }
 
     public void drawCockpit(Ship s) {
         textFont(MAIN_FONT);
         String verdict = game.universalGravity(s);
-        if(verdict == "Collision" || (millis()-s.startTime)/1000 > 90 || s.positionY > lostZone || s.positionY < -lostZone) {
+        if (verdict == "Collision" || (millis()-s.startTime)/1000 > 90 || s.positionY > lostZone || s.positionY < -lostZone) {
             s.fuel = s.fuelCapacity;
             this.destroy();
             gameOver.create();
@@ -91,13 +100,29 @@ public class Cockpit {
         Window nearbyPlanetPanel = new Window(npp_StartX, npp_StartY, theme[1]);
         nearbyPlanetPanel.drawWindow(npp_EndX, npp_EndY, false);
         fill(255);
-        if(verdict == "Go up" || verdict == "Go down") {
-          Planet near = game.getNearestPlanet(s);
-          int textPadding = 13;
-          text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
-          text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
+        if (verdict == "Go up" || verdict == "Go down") {
+            if (verdict == "Go up") {
+                drawWarningWindow(goUp);
+            } else if (verdict == "Go down") {
+                drawWarningWindow(goDown);
+            } else if (s.positionY < -lostZone+200) {
+                drawWarningWindow(lostSectorUp);
+            } else if (s.positionY > lostZone-200) {
+                drawWarningWindow(lostSectorDown);
+            }
+            Planet near = game.getNearestPlanet(s);
+            int textPadding = 13;
+            text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
+            text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
 
-          text(verdict, npp_StartX, npp_StartY + textPadding*4);
+            text(verdict, npp_StartX, npp_StartY + textPadding*4);
+        }
+        if (verdict == "No problem") {
+            if (s.positionY < -lostZone+200) {
+                drawWarningWindow(lostSectorUp);
+            } else if (s.positionY > lostZone-200) {
+                drawWarningWindow(lostSectorDown);
+            }
         }
 
         //console panel
@@ -152,6 +177,7 @@ public class Cockpit {
                 transferToShop();
             }
             s.positionX = s.finishLine;
+            s.positionY = 0;
         }
 
         ////////// DEBUG FUNCTIONALITY TO TEST SHOP
@@ -201,5 +227,12 @@ public class Cockpit {
         shop = new Shop(testCargo);
         this.destroy();
         shop.create();
+    }
+
+    private void drawWarningWindow(String msg) {
+        if (s.positionX < s.finishLine) {
+            warningWindow.text = msg;
+            warningWindow.drawWindow(0);
+        }
     }
 }

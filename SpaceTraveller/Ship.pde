@@ -13,8 +13,9 @@ class Ship {
     protected float fuel; // current fuel, refilled to fuelCapacity every level
     protected int startTime;
     protected int credits; //currency
+    protected int passiveIncome = 100;
     protected HashMap<String, Integer> inventory = new HashMap<String, Integer>();
-    protected int efficiencyLvl = 1, maxThrusterLvl = 1, fuelCapLvl = 1;
+    protected int efficiencyLvl = 1, passiveIncomeLvl = 1, fuelCapLvl = 1;
 
     public Ship(float mass) {
         this.mass = mass;
