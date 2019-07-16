@@ -108,7 +108,7 @@ void draw() {
         main.drawMainMenu();
     else if (cockpit.active) {
         if (tutorial) {
-            tutorial = readyToAdventure.executeReturn();
+          tutorial = readyToAdventure.executeReturn();
         } else {
             if (game.gameStart == false) { // use this as a base to start the ship moving
                 game.gameStart = true;
