@@ -143,15 +143,12 @@ public class Cockpit {
         Window progressPanel = new Window(pp_StartX, pp_StartY, theme[1]);
         progressPanel.drawWindow(pp_EndX, pp_EndY, false);
         float progress = s.positionX/s.finishLine;
+        float shipHeight = s.positionY/lostZone;
         if (progress > 1) progress = 1;
         int imageSize = 50;
-        image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + pp_EndY/2);
         fill(255);
         text("Time Left: " + (90-(millis()-s.startTime)/1000), pp_StartX, pp_StartY + padding);
-        text("0", pp_StartX, pp_StartY + pp_EndY/2 + imageSize);
-        textAlign(RIGHT);
-        text((int)s.finishLine, pp_StartX + pp_EndX, pp_StartY + pp_EndY/2 + imageSize);
-        textAlign(LEFT);
+        image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + (pp_EndY/2) - (pp_EndY/2 - imageSize/2)*shipHeight);
 
         //fuel panel
         int fp_StartX = cp_EndX+225, fp_StartY = sp_StartY;
