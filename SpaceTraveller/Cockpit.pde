@@ -111,11 +111,17 @@ public class Cockpit {
                 drawWarningWindow(lostSectorDown);
             }
             Planet near = game.getNearestPlanet(s);
-            int textPadding = 13;
+            int textPadding = 14;
+            //float force = s.mass * near.mass / s.distanceFromPlanet(near);
+            
             text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
             text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
-
-            text(verdict, npp_StartX, npp_StartY + textPadding*4);
+            text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + textPadding*4);
+            text("Planet Location:", npp_StartX, npp_StartY + textPadding*5);
+            text((int)near.positionX + " " + (int)near.positionY, npp_StartX, npp_StartY + textPadding*6);
+            text("Safe height:", npp_StartX, npp_StartY + textPadding*7);
+            text((int)(near.positionY - near.radius) + " or " + (int)(near.positionY + near.radius), npp_StartX, npp_StartY + textPadding*8);
+            text(verdict, npp_StartX, npp_StartY + textPadding*9);
         }
         if (verdict == "No problem") {
             if (s.positionY < -lostZone+200) {
