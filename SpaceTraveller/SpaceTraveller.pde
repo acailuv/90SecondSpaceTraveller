@@ -1,4 +1,10 @@
 import ddf.minim.*;
+// save
+import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 //sound
 public AudioPlayer bgmChannel;
@@ -40,6 +46,11 @@ void setup() {
     //ship
     s = new Ship(100);
     s.credits = 500;
+    // prevent nullpointerexception when saving with an empty inventory
+    s.inventory.put("Sugar", 0);
+    s.inventory.put("Fusion Cell", 0);
+    s.inventory.put("Space Cat", 0);
+    s.inventory.put("Mystery Goo", 0);
 
     //main menu
     main = new MainMenu();
@@ -169,8 +180,40 @@ void keyPressed() {
         if (key == 'a') s.brakePulse();
         if (key == 'd') s.mainThruster();
     }
+    if (key == 'l') selectInput("Select a file", "loadGame");
+    if (key == 'k') selectOutput("Save to", "saveGame");
+    if (key == 'g') s.positionX = 22000; // debug
 }
-
+void loadGame(File f) {
+  String[] loaddata = loadStrings(f);
+  s.efficiencyLvl = Integer.parseInt(loaddata[0]);
+  s.passiveIncomeLvl = Integer.parseInt(loaddata[1]);
+  s.fuelCapLvl = Integer.parseInt(loaddata[2]);
+  s.fuel = Float.parseFloat(loaddata[3]);
+  s.credits = Integer.parseInt(loaddata[4]);
+  s.inventory.put("Sugar", Integer.parseInt(loaddata[5]));
+  s.inventory.put("Fusion Cell", Integer.parseInt(loaddata[6]));
+  s.inventory.put("Space Cat", Integer.parseInt(loaddata[7]));
+  s.inventory.put("Mystery Goo", Integer.parseInt(loaddata[8]));
+  s.efficiency = s.efficiencyLvl*0.1;
+  s.passiveIncome = (int)(100*pow(2, s.passiveIncomeLvl-1));
+  s.fuelCapacity = (int)(100*pow(2, s.fuelCapLvl-1));
+  main.destroy();
+  cockpit.create();
+}
+void saveGame(File f) {
+  String[] savedata = new String[9];
+  savedata[0] = Integer.toString(s.efficiencyLvl);
+  savedata[1] = Integer.toString(s.passiveIncomeLvl);
+  savedata[2] = Integer.toString(s.fuelCapLvl);
+  savedata[3] = Float.toString(s.fuel);
+  savedata[4] = Integer.toString(s.credits);
+  savedata[5] = Integer.toString(s.inventory.get("Sugar"));
+  savedata[6] = Integer.toString(s.inventory.get("Fusion Cell"));
+  savedata[7] = Integer.toString(s.inventory.get("Space Cat"));
+  savedata[8] = Integer.toString(s.inventory.get("Mystery Goo"));
+  saveStrings(f, savedata);
+}
 void stop() {
     bgmChannel.close();
     seChannel.close();

@@ -1,4 +1,5 @@
-class Ship {
+import java.io.Serializable;
+class Ship implements Serializable{
     protected float mass;
     protected float positionX;
     protected float positionY;
@@ -51,8 +52,8 @@ class Ship {
         float forceY = force * sin(angleFromPlanet(p));
         velocityX += (forceX/mass)/frameRate;
         velocityY += (forceY/mass)/frameRate;
-        positionX += (velocityX/2)/frameRate;
-        positionY += (velocityY/2)/frameRate;
+        positionX += (velocityX/1)/frameRate;
+        positionY += (velocityY/1)/frameRate;
     }
 
     public void mainThruster() {
