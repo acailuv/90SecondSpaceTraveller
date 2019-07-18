@@ -25,7 +25,7 @@ public class TextWindow {
         this.nameColor = nameColor;
         this.textColor = textColor;
     }
-    
+
     public TextWindow(Window window, String name, String text, Color windowColor) {
         this.window = window;
         this.name = name;
