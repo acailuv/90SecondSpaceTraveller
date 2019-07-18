@@ -51,8 +51,8 @@ class Ship {
         float forceY = force * sin(angleFromPlanet(p));
         velocityX += (forceX/mass)/frameRate;
         velocityY += (forceY/mass)/frameRate;
-        positionX += velocityX/frameRate;
-        positionY += velocityY/frameRate;
+        positionX += (velocityX/2)/frameRate;
+        positionY += (velocityY/2)/frameRate;
     }
 
     public void mainThruster() {

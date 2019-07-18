@@ -6,6 +6,7 @@ public class Cockpit {
     protected Color theme[];
     protected boolean active = false;
     protected int lostZone = 1000;
+    protected int speedWarning = 50;
 
     private final PFont MAIN_FONT = createFont("Consolas", 16);
 
@@ -122,17 +123,16 @@ public class Cockpit {
                 sePlayed = false;
             }
             Planet near = game.getNearestPlanet(s);
-            int textPadding = 14;
             //float force = s.mass * near.mass / s.distanceFromPlanet(near);
 
-            text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
-            text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
-            text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + textPadding*4);
-            text("Planet Location:", npp_StartX, npp_StartY + textPadding*5);
-            text((int)near.positionX + " " + (int)near.positionY, npp_StartX, npp_StartY + textPadding*6);
-            text("Safe height:", npp_StartX, npp_StartY + textPadding*7);
-            text((int)(near.positionY - near.radius) + " or " + (int)(near.positionY + near.radius), npp_StartX, npp_StartY + textPadding*8);
-            text(verdict, npp_StartX, npp_StartY + textPadding*9);
+            text("Nearby: " + near.planetName, npp_StartX, npp_StartY + padding);
+            text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + padding*2);
+            text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + padding*4);
+            text("Planet Location:", npp_StartX, npp_StartY + padding*5);
+            text("X: " + (int)near.positionX + "  Y: " + (int)near.positionY, npp_StartX, npp_StartY + padding*6);
+            text("Safe height:", npp_StartX, npp_StartY + padding*7);
+            text((int)max((near.positionY - near.radius), (near.positionY + near.radius)) + " or " + (int)min((near.positionY - near.radius), (near.positionY + near.radius)), npp_StartX, npp_StartY + padding*8);
+            text(verdict, npp_StartX, npp_StartY + padding*9);
         } else {
             if (s.positionY < -lostZone+200) {
                 if (!sePlayed) seChannel = minim.loadFile("alert.mp3", 512); 
@@ -154,6 +154,15 @@ public class Cockpit {
         int cp_EndX = cp_StartX+200, cp_EndY = sp_EndY;
         Window consolePanel = new Window(cp_StartX, cp_StartY, theme[1]);
         consolePanel.drawWindow(cp_EndX, cp_EndY, false);
+        fill(255);
+        if(s.velocityX > speedWarning) {
+           text("You are going too fast!", cp_StartX, cp_StartY + padding);
+        }
+        if(s.velocityY > speedWarning) {
+          text("You are ascending too fast!", cp_StartX, cp_StartY + padding*2);
+        } else if(s.velocityY < -speedWarning) {
+          text("You are descending too fast!", cp_StartX, cp_StartY + padding*2);
+        }
 
         //progress panel
         int pp_StartX = cp_StartX, pp_StartY = npp_StartY;

@@ -2,8 +2,8 @@ class PlanetHandler {
     protected ArrayList <Planet> planets;
     protected int gapBetweenPlanets = 2000;
     protected int planetAmount = 10;
-    protected int massFloor = 100000;
-    protected int massCeiling = 200000;
+    protected int massFloor = 75000;
+    protected int massCeiling = massFloor*2;
     protected int YFloor = -600;
     protected int YCeiling = 600;
     protected int radiusFloor = 100;
@@ -30,7 +30,7 @@ class PlanetHandler {
             s.universalForce(planets.get(i));
             if (sqrt(s.distanceFromPlanet(planets.get(i))) <= planets.get(i).radius) {
                 return "Collision";
-            } else if (sqrt(s.distanceFromPlanet(planets.get(i))) <= planets.get(i).radius * 4) {
+            } else if (sqrt(s.distanceFromPlanet(planets.get(i))) <= planets.get(i).radius * 4 && s.positionX <= planets.get(i).positionX) {
                 if (s.positionY > planets.get(i).positionY && s.positionY < planets.get(i).positionY + planets.get(i).radius*2) {
                     return "Go up";
                 } else if (s.positionY <= planets.get(i).positionY && s.positionY > planets.get(i).positionY - planets.get(i).radius*2) {
