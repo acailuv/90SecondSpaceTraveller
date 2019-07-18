@@ -6,8 +6,10 @@ public class Cockpit {
     protected Color theme[];
     protected boolean active = false;
     protected int lostZone = 1000;
+    protected int speedWarning = 50;
 
     private final PFont MAIN_FONT = createFont("Consolas", 16);
+    private final PFont NAME_FONT = createFont("Consolas Bold", 24);
 
     private boolean musicPlayed = false;
     private boolean sePlayed = false;
@@ -122,17 +124,16 @@ public class Cockpit {
                 sePlayed = false;
             }
             Planet near = game.getNearestPlanet(s);
-            int textPadding = 14;
             //float force = s.mass * near.mass / s.distanceFromPlanet(near);
 
-            text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
-            text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
-            text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + textPadding*4);
-            text("Planet Location:", npp_StartX, npp_StartY + textPadding*5);
-            text((int)near.positionX + " " + (int)near.positionY, npp_StartX, npp_StartY + textPadding*6);
-            text("Safe height:", npp_StartX, npp_StartY + textPadding*7);
-            text((int)(near.positionY - near.radius) + " or " + (int)(near.positionY + near.radius), npp_StartX, npp_StartY + textPadding*8);
-            text(verdict, npp_StartX, npp_StartY + textPadding*9);
+            text("Nearby: " + near.planetName, npp_StartX, npp_StartY + padding);
+            text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + padding*2);
+            text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + padding*4);
+            text("Planet Location:", npp_StartX, npp_StartY + padding*5);
+            text(" X(" + (int)near.positionX + ") Y(" + (int)near.positionY + ")", npp_StartX, npp_StartY + padding*6);
+            text("Safe height:", npp_StartX, npp_StartY + padding*7);
+            text(" " + (int)max((near.positionY - near.radius), (near.positionY + near.radius)) + " or " + (int)min((near.positionY - near.radius), (near.positionY + near.radius)), npp_StartX, npp_StartY + padding*8);
+            text("[" + verdict + "]", npp_StartX, npp_StartY + padding*9 + 7);
         } else {
             if (s.positionY < -lostZone+200) {
                 if (!sePlayed) seChannel = minim.loadFile("alert.mp3", 512); 
@@ -154,6 +155,15 @@ public class Cockpit {
         int cp_EndX = cp_StartX+200, cp_EndY = sp_EndY;
         Window consolePanel = new Window(cp_StartX, cp_StartY, theme[1]);
         consolePanel.drawWindow(cp_EndX, cp_EndY, false);
+        fill(255);
+        if(s.velocityX > speedWarning) {
+           text("You are going too fast!", cp_StartX, cp_StartY + padding);
+        }
+        if(s.velocityY > speedWarning) {
+          text("You are ascending too fast!", cp_StartX, cp_StartY + padding*2);
+        } else if(s.velocityY < -speedWarning) {
+          text("You are descending too fast!", cp_StartX, cp_StartY + padding*2);
+        }
 
         //progress panel
         int pp_StartX = cp_StartX, pp_StartY = npp_StartY;
@@ -173,8 +183,19 @@ public class Cockpit {
         int fp_EndX = fp_StartX-225-245, fp_EndY = sp_EndY;
         Window fuelPanel = new Window(fp_StartX, fp_StartY, theme[1]);
         fuelPanel.drawWindow(fp_EndX, fp_EndY, false);
-        fill(120); // fuel bar color
+        fill(0, 255, 0, 200); // fuel bar color
+        if (s.fuel <= 0.2*s.fuelCapacity) fill(255, 0, 0, 200);
         rect(fp_StartX, fp_StartY + fp_EndY, fp_EndX, -(fp_EndY)*(s.fuel/s.fuelCapacity));
+        textAlign(CENTER, CENTER);
+        textFont(NAME_FONT);
+        fill(255);
+        text("[FUEL]", fp_StartX+fp_EndX/2, fp_StartY+fp_EndY/2);
+        textFont(MAIN_FONT);
+        if (s.fuel <= 0.2*s.fuelCapacity) {
+            fill(255, 0, 0);
+            text("CRITICAL!", fp_StartX+fp_EndX/2, fp_StartY+fp_EndY/2+24);
+        }
+        textAlign(LEFT);
 
         //engine panel
         int ep_StartX = fp_StartX, ep_StartY = npp_StartY;
