@@ -82,7 +82,7 @@ void setup() {
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "", "The engine starts."), normalColor, 1);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Before we venture forth I have to remind you, as a pilot, how to operate this spacecraft."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "*sigh* Can I skip this already?"), normalColor);
-    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Press [A] to activate your brake pulse. Use this to decelerate when needed."), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Press [A] to activate your brake pulse. Use this to decelerate instantly when needed."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Press [D] to throttle your back thruster. Use this to accelerate your X-axis velocity. Cranking up the speed will take you to your destination more quickly. However, be careful of the planets that inhabit the cosmos."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Press [W] and [S] to activate your bottom thruster and top thruster respectively. Use this to adjust your angle to dodge planets."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "I sure wish there is a window in this ship..."), normalColor);

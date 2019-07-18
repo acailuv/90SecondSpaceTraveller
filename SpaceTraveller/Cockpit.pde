@@ -9,6 +9,7 @@ public class Cockpit {
     protected int speedWarning = 50;
 
     private final PFont MAIN_FONT = createFont("Consolas", 16);
+    private final PFont NAME_FONT = createFont("Consolas Bold", 24);
 
     private boolean musicPlayed = false;
     private boolean sePlayed = false;
@@ -129,10 +130,10 @@ public class Cockpit {
             text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + padding*2);
             text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + padding*4);
             text("Planet Location:", npp_StartX, npp_StartY + padding*5);
-            text("X: " + (int)near.positionX + "  Y: " + (int)near.positionY, npp_StartX, npp_StartY + padding*6);
+            text(" X(" + (int)near.positionX + ") Y(" + (int)near.positionY + ")", npp_StartX, npp_StartY + padding*6);
             text("Safe height:", npp_StartX, npp_StartY + padding*7);
-            text((int)max((near.positionY - near.radius), (near.positionY + near.radius)) + " or " + (int)min((near.positionY - near.radius), (near.positionY + near.radius)), npp_StartX, npp_StartY + padding*8);
-            text(verdict, npp_StartX, npp_StartY + padding*9);
+            text(" " + (int)max((near.positionY - near.radius), (near.positionY + near.radius)) + " or " + (int)min((near.positionY - near.radius), (near.positionY + near.radius)), npp_StartX, npp_StartY + padding*8);
+            text("[" + verdict + "]", npp_StartX, npp_StartY + padding*9 + 7);
         } else {
             if (s.positionY < -lostZone+200) {
                 if (!sePlayed) seChannel = minim.loadFile("alert.mp3", 512); 
@@ -182,8 +183,19 @@ public class Cockpit {
         int fp_EndX = fp_StartX-225-245, fp_EndY = sp_EndY;
         Window fuelPanel = new Window(fp_StartX, fp_StartY, theme[1]);
         fuelPanel.drawWindow(fp_EndX, fp_EndY, false);
-        fill(120); // fuel bar color
+        fill(0, 255, 0, 200); // fuel bar color
+        if (s.fuel <= 0.2*s.fuelCapacity) fill(255, 0, 0, 200);
         rect(fp_StartX, fp_StartY + fp_EndY, fp_EndX, -(fp_EndY)*(s.fuel/s.fuelCapacity));
+        textAlign(CENTER, CENTER);
+        textFont(NAME_FONT);
+        fill(255);
+        text("[FUEL]", fp_StartX+fp_EndX/2, fp_StartY+fp_EndY/2);
+        textFont(MAIN_FONT);
+        if (s.fuel <= 0.2*s.fuelCapacity) {
+            fill(255, 0, 0);
+            text("CRITICAL!", fp_StartX+fp_EndX/2, fp_StartY+fp_EndY/2+24);
+        }
+        textAlign(LEFT);
 
         //engine panel
         int ep_StartX = fp_StartX, ep_StartY = npp_StartY;
