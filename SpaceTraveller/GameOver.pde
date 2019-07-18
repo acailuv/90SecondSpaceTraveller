@@ -86,6 +86,8 @@ public class GameOver {
         bgmChannel.close();
         minim.stop();
         resetLevel();
+        currentY = height;
+        this.musicPlayed = false;
         this.convFlag = false;
         this.active = false;
     }

@@ -111,11 +111,17 @@ public class Cockpit {
                 drawWarningWindow(lostSectorDown);
             }
             Planet near = game.getNearestPlanet(s);
-            int textPadding = 13;
+            int textPadding = 14;
+            //float force = s.mass * near.mass / s.distanceFromPlanet(near);
+            
             text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
             text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
-
-            text(verdict, npp_StartX, npp_StartY + textPadding*4);
+            text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + textPadding*4);
+            text("Planet Location:", npp_StartX, npp_StartY + textPadding*5);
+            text((int)near.positionX + " " + (int)near.positionY, npp_StartX, npp_StartY + textPadding*6);
+            text("Safe height:", npp_StartX, npp_StartY + textPadding*7);
+            text((int)(near.positionY - near.radius) + " or " + (int)(near.positionY + near.radius), npp_StartX, npp_StartY + textPadding*8);
+            text(verdict, npp_StartX, npp_StartY + textPadding*9);
         }
         if (verdict == "No problem") {
             if (s.positionY < -lostZone+200) {
@@ -137,15 +143,12 @@ public class Cockpit {
         Window progressPanel = new Window(pp_StartX, pp_StartY, theme[1]);
         progressPanel.drawWindow(pp_EndX, pp_EndY, false);
         float progress = s.positionX/s.finishLine;
+        float shipHeight = s.positionY/lostZone;
         if (progress > 1) progress = 1;
         int imageSize = 50;
-        image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + pp_EndY/2);
         fill(255);
         text("Time Left: " + (90-(millis()-s.startTime)/1000), pp_StartX, pp_StartY + padding);
-        text("0", pp_StartX, pp_StartY + pp_EndY/2 + imageSize);
-        textAlign(RIGHT);
-        text((int)s.finishLine, pp_StartX + pp_EndX, pp_StartY + pp_EndY/2 + imageSize);
-        textAlign(LEFT);
+        image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + (pp_EndY/2) - (pp_EndY/2 - imageSize/2)*shipHeight);
 
         //fuel panel
         int fp_StartX = cp_EndX+225, fp_StartY = sp_StartY;

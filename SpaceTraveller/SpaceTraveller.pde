@@ -97,7 +97,7 @@ void setup() {
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Alright! Let's reach for the richest traveller in the galaxy!"), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Master doesn't seem to listen to me."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Via, how many [Space Credits] left to be the richest person in the galaxy?"), normalColor);
-    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Hmmm... Let's see here. You current have [500 Cr.] That means you are [99,500 Credits] away be the richest traveller in this galaxy. Note that it's nothing compared to the richest person in the whole universe."), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Hmmm... Let's see here. You current have [500 Cr.] That means you are [99,500 Credits] away to be the richest traveller in this galaxy. Note that it's nothing compared to the richest person in the whole universe."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "I know, I know. Everyone has to start somewhere."), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "", "[Objective] Obtain 100,000 Space Credits (Cr.)"), normalColor, 1);
 
