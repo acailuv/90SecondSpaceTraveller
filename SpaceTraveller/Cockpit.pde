@@ -10,6 +10,7 @@ public class Cockpit {
     private final PFont MAIN_FONT = createFont("Consolas", 16);
 
     private boolean musicPlayed = false;
+    private boolean sePlayed = false;
     private Conversation weHaveArrived;
     private boolean convInProgress = false;
 
@@ -61,7 +62,12 @@ public class Cockpit {
         if (verdict == "Collision" || (millis()-s.startTime)/1000 > 90 || s.positionY > lostZone || s.positionY < -lostZone) {
             s.fuel = s.fuelCapacity;
             this.destroy();
-            gameOver.create();
+            if (verdict == "Collision")
+                gameOver.create("Collided with a planet.");
+            else if ((millis()-s.startTime)/1000 > 90)
+                gameOver.create("Time's up!");
+            else if (s.positionY > lostZone || s.positionY < -lostZone)
+                gameOver.create("Swallowed by [Lost Sector].");
             return;
         }
 
@@ -101,6 +107,9 @@ public class Cockpit {
         nearbyPlanetPanel.drawWindow(npp_EndX, npp_EndY, false);
         fill(255);
         if (verdict == "Go up" || verdict == "Go down") {
+            if (!sePlayed) seChannel = minim.loadFile("alert.mp3", 512); 
+            sePlayed = true; 
+            seChannel.play();
             if (verdict == "Go up") {
                 drawWarningWindow(goUp);
             } else if (verdict == "Go down") {
@@ -109,11 +118,13 @@ public class Cockpit {
                 drawWarningWindow(lostSectorUp);
             } else if (s.positionY > lostZone-200) {
                 drawWarningWindow(lostSectorDown);
+            } else {
+                sePlayed = false;
             }
             Planet near = game.getNearestPlanet(s);
             int textPadding = 14;
             //float force = s.mass * near.mass / s.distanceFromPlanet(near);
-            
+
             text("Nearby: " + near.planetName, npp_StartX, npp_StartY + textPadding);
             text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + textPadding*2);
             text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + textPadding*4);
@@ -122,12 +133,19 @@ public class Cockpit {
             text("Safe height:", npp_StartX, npp_StartY + textPadding*7);
             text((int)(near.positionY - near.radius) + " or " + (int)(near.positionY + near.radius), npp_StartX, npp_StartY + textPadding*8);
             text(verdict, npp_StartX, npp_StartY + textPadding*9);
-        }
-        if (verdict == "No problem") {
+        } else {
             if (s.positionY < -lostZone+200) {
+                if (!sePlayed) seChannel = minim.loadFile("alert.mp3", 512); 
+                sePlayed = true; 
+                seChannel.play();
                 drawWarningWindow(lostSectorUp);
             } else if (s.positionY > lostZone-200) {
+                if (!sePlayed) seChannel = minim.loadFile("alert.mp3", 512); 
+                sePlayed = true; 
+                seChannel.play();
                 drawWarningWindow(lostSectorDown);
+            } else {
+                sePlayed = false;
             }
         }
 
