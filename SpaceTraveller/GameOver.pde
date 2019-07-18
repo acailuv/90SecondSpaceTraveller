@@ -1,6 +1,7 @@
 public class GameOver {
 
     private final PFont TITLE_FONT = createFont("Consolas Bold", 42);
+    private final PFont NAME_FONT = createFont("Consolas Bold", 24);
 
     private boolean musicPlayed = false;
     private int destinationY = height/2; //Y coordinate where the text will stop moving
@@ -8,6 +9,7 @@ public class GameOver {
     private Conversation epilogue;
     private boolean convFlag = true;
     private boolean active = false;
+    protected String reason;
 
     public GameOver() {
         bgmChannel.close();
@@ -38,6 +40,11 @@ public class GameOver {
         textFont(TITLE_FONT);
         textAlign(CENTER, CENTER);
         text("GAME OVER", width/2, currentY);
+        textFont(NAME_FONT);
+        fill(255, 0, 0);
+        text("Reason: " + this.reason, width/2, currentY+42);
+        fill(255);
+        textFont(TITLE_FONT);
 
         if (currentY >= destinationY) {   
             currentY--;
@@ -78,6 +85,12 @@ public class GameOver {
 
     public void create() {
         this.active = true;
+        bgmChannel = minim.loadFile("gameover_bgm.mp3", 2048);
+    }
+
+    public void create(String reason) {
+        this.active = true;
+        this.reason = reason;
         bgmChannel = minim.loadFile("gameover_bgm.mp3", 2048);
     }
 
