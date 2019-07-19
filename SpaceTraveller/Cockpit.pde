@@ -9,7 +9,7 @@ public class Cockpit {
     protected int speedWarning = 40;
 
     private final PFont MAIN_FONT = createFont("Consolas", 16);
-    private final PFont NAME_FONT = createFont("Consolas Bold", 24);
+    private final PFont NAME_FONT = createFont("Consolas Bold", 20);
 
     private boolean musicPlayed = false;
     private boolean sePlayed = false;
@@ -80,7 +80,7 @@ public class Cockpit {
         }
 
         int padding = 15;
-        text("FPS: " + frameRate, 5, 15);
+        //text("FPS: " + frameRate, 5, 15);
         //back panel
         Window backPanel = new Window(startX, startY, theme[0]);
         backPanel.drawWindow(width, 400, false);
@@ -91,6 +91,10 @@ public class Cockpit {
         Window shipPanel = new Window(sp_StartX, sp_StartY, theme[1]);
         shipPanel.drawWindow(sp_EndX, sp_EndY, false);
         PImage shipSprite = loadImage("ship.png");
+        fill(0, 255, 0);
+        textFont(NAME_FONT);
+        text("[GYROSCOPE]", sp_StartX + 5, sp_StartY - 6);
+        textFont(MAIN_FONT);
         fill(255);
         text("Ship Angle: " + String.format("%.1f", degrees(s.getAngle())), sp_StartX + 5, sp_StartY + padding);
         text("Current X: " + (int)s.positionX, sp_StartX + 5, sp_StartY + sp_EndY - 5 - padding);
@@ -125,7 +129,11 @@ public class Cockpit {
             }
             Planet near = game.getNearestPlanet(s);
             //float force = s.mass * near.mass / s.distanceFromPlanet(near);
-
+            fill(255, 0, 0);
+            textFont(NAME_FONT);
+            text("[DANGER!]", npp_StartX, npp_StartY-8);
+            textFont(MAIN_FONT);
+            fill(255);
             text("Nearby: " + near.planetName, npp_StartX, npp_StartY + padding);
             text("Impact: " + (int)(sqrt(s.distanceFromPlanet(near)) - near.radius), npp_StartX, npp_StartY + padding*2);
             text("Planet Size: " + (int)near.radius, npp_StartX, npp_StartY + padding*4);
@@ -149,21 +157,32 @@ public class Cockpit {
                 sePlayed = false;
             }
         }
-
+        warningWindow.create();
         //console panel
         int cp_StartX = sp_EndX+50, cp_StartY = sp_StartY;
         int cp_EndX = cp_StartX+200, cp_EndY = sp_EndY;
         Window consolePanel = new Window(cp_StartX, cp_StartY, theme[1]);
         consolePanel.drawWindow(cp_EndX, cp_EndY, false);
-        fill(255);
+        fill(0, 255, 0);
+        textFont(NAME_FONT);
+        text("[INDICATORS]", cp_StartX, cp_StartY - 6);
+        textFont(MAIN_FONT);
+        fill(255, 0, 0);
         if (s.velocityX > speedWarning) {
-            text("You are going too fast!", cp_StartX, cp_StartY + padding);
+            text("  > TOO FAST!", cp_StartX, cp_StartY + padding);
         }
         if (s.velocityY > speedWarning) {
-            text("You are ascending too fast!", cp_StartX, cp_StartY + padding*2);
+            text("  > TOO FAST UPWARDS!", cp_StartX, cp_StartY + padding*2);
         } else if (s.velocityY < -speedWarning) {
-            text("You are descending too fast!", cp_StartX, cp_StartY + padding*2);
+            text("  > TOO FAST DOWNWARDS!", cp_StartX, cp_StartY + padding*2);
         }
+        if (verdict == "Go up" || verdict == "Go down") text("  > [ROGUE PLANET] NEARBY!", cp_StartX, cp_StartY + padding*3);
+        if (s.positionY < -lostZone+200 || s.positionY > lostZone-200) text("  > [LOST SECTOR] NEARBY!", cp_StartX, cp_StartY + padding*4);
+        fill(255, 175, 0);
+        if (key == 'w' && keyPressed) text("  > BOTTOM THRUSTER ACTIVE. Going UP...", cp_StartX, cp_StartY + padding*5);
+        if (key == 's' && keyPressed) text("  > TOP THRUSTER ACTIVE. Going DOWN...", cp_StartX, cp_StartY + padding*6);
+        if (key == 'a' && keyPressed) text("  > BRAKE PULSE ACTIVE. Slowing down...", cp_StartX, cp_StartY + padding*7);
+        if (key == 'd' && keyPressed) text("  > MAIN THRUSTER ACTIVE. Going FORWARD...", cp_StartX, cp_StartY + padding*8);
 
         //progress panel
         int pp_StartX = cp_StartX, pp_StartY = npp_StartY;
@@ -174,6 +193,10 @@ public class Cockpit {
         float shipHeight = s.positionY/lostZone;
         if (progress > 1) progress = 1;
         int imageSize = 50;
+        fill(0, 255, 0);
+        textFont(NAME_FONT);
+        text("[NAVIGATION]", pp_StartX, pp_StartY-8);
+        textFont(MAIN_FONT);
         fill(255);
         text("Time Left: " + (90-(millis()-s.startTime)/1000), pp_StartX, pp_StartY + padding);
         image(shipSprite, pp_StartX + imageSize/2 + (pp_EndX - imageSize)*progress, pp_StartY + (pp_EndY/2) - (pp_EndY/2 - imageSize/2)*shipHeight);
@@ -203,10 +226,15 @@ public class Cockpit {
         Window enginePanel = new Window(ep_StartX, ep_StartY, theme[1]);
         enginePanel.drawWindow(ep_EndX, ep_EndY, false);
 
-        fill(255); /// text color
-        text("X Velocity: " + String.format("%.1f", s.velocityX), ep_StartX + 5, ep_StartY + padding); // uses the same padding as the one in start nearby planet panel
+        fill(0, 255, 0);
+        textFont(NAME_FONT);
+        text("[ENGINE]", ep_StartX + 5, ep_StartY-8);
+        textFont(MAIN_FONT);
+        fill(255);
+        text("X Velocity: " + String.format("%.1f", s.velocityX), ep_StartX + 5, ep_StartY + padding*1); // uses the same padding as the one in start nearby planet panel
         text("Y Velocity: " + String.format("%.1f", s.velocityY), ep_StartX + 5, ep_StartY + padding*2);
-
+        text("Eff: " + Float.toString((float)Math.floor(s.efficiency*100)) + "%", ep_StartX + 5, ep_StartY + padding*4);
+        text("Fuel: " + Integer.toString((int)s.fuel) + " L", ep_StartX + 5, ep_StartY + padding*5);
 
         if (s.positionX >= s.finishLine) {
             convInProgress = true;
@@ -233,6 +261,7 @@ public class Cockpit {
 
     public void create() {
         this.active = true;
+        this.musicPlayed = false;
         bgmChannel = minim.loadFile("journey_bgm.mp3", 2048);
     }
 

@@ -156,7 +156,7 @@ void draw() {
                 s.startTime = millis();
             } else {
                 // if the game is running, calculate ALL of the planet gravity forces acting on the ship
-                System.out.println(game.universalGravity(s));
+                game.universalGravity(s);
                 //System.out.println(s.positionX + " " + s.positionY);
             }
             cockpit.drawCockpit(s);
@@ -195,14 +195,14 @@ void draw() {
 
 void keyPressed() {
     if (shop.active == false && s.fuel > 0) {
-        if (key == 'w') s.bottomThruster();
+        if (key == 'w') s.bottomThruster(); 
         if (key == 's') s.topThruster();
         if (key == 'a') s.brakePulse();
         if (key == 'd') s.mainThruster();
     }
     if (key == 'l' && main.active) selectInput("Select a file", "loadGame");
     if (key == 'k' && shop.active) selectOutput("Save to", "saveGame");
-    if (key == 'g') s.positionX = 22000; // debug
+    //if (key == 'g') s.positionX = 22000; // debug
 }
 
 public void loadGame(File f) {

@@ -25,7 +25,7 @@ class Ship implements Serializable {
         positionX = 0;
         positionY = 0;
         efficiency = 0.1;
-        thrusterPower = 10;
+        thrusterPower = 15;
         brakeFloor = 10;
         brakeSpeed = 1;
         fuel = 100;

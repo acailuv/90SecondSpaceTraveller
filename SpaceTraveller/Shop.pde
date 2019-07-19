@@ -95,7 +95,7 @@ public class Shop {
             text("Efficiency: " + Float.toString((float)Math.floor(s.efficiency*100)) + "%", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING);
             text("Fuel Capacity: " + Float.toString(s.fuelCapacity) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+MAIN_FONT_PADDING);
             text("Passive Income: " + Integer.toString(s.passiveIncome) + " Cr.", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+2*MAIN_FONT_PADDING);
-            text("Current Fuel: " + Float.toString(s.fuel) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+3*MAIN_FONT_PADDING);
+            text("Current Fuel: " + Integer.toString((int)s.fuel) + " L", ip_StartX+ip_EndX/2-35, ip_StartY+25+NAME_FONT_PADDING+3*MAIN_FONT_PADDING);
 
             //leave button
             Button leave = new Button(ip_StartX+15, ip_StartY+25+NAME_FONT_PADDING+4*MAIN_FONT_PADDING, width-(width/2-25)-110, 35, new Color(255, 0, 0, 150));
@@ -262,7 +262,7 @@ public class Shop {
         upgrade_EfficiencyPrice = (int)Math.pow(10, s.efficiencyLvl);
         upgrade_FuelCapPrice = (int)Math.pow(10, s.fuelCapLvl);
         upgrade_PassiveIncomePrice = (int)Math.pow(10, s.passiveIncomeLvl);
-        upgrade_RefuelPrice = (int)(7* (s.fuelCapacity - s.fuel));
+        upgrade_RefuelPrice = (int)(random(3,5)* (s.fuelCapacity - s.fuel));
     }
 
     public void destroy() {

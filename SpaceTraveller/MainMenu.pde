@@ -42,6 +42,8 @@ public class MainMenu {
         playButton.font = createFont("Consolas Bold", 24);
         playButton.drawButton("Play", width/2, 2*height/3+25+23);
         if (playButton.isClicked()) {
+            s = new Ship(100);
+            resetLevel();
             this.destroy();
             cockpit.create();
             delay(100);
