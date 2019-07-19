@@ -2,9 +2,9 @@
 A Game Project to be graded in Mathematics and Physics for Games. 
 
 # Downloading the Game
-Download the latest version [here](https://www.mediafire.com/file/jnpa49a09e9ggq6/SpaceTraveller_v1.0.2b.zip/file). Download and run the executable (`SpaceTraveller.exe`) file. Note that you can choose between `64-bit` and `32-bit` version.
+Download the latest version [here](https://www.mediafire.com/file/os3e0mcb1s8f8hi/SpaceTraveller_v1.0.3b.zip/file). Download and run the executable (`SpaceTraveller.exe`) file. Note that you can choose between `64-bit` and `32-bit` version.
 ![SpaceTraveller.exe](https://i.imgur.com/NLR7arH.png)
-The `64-bit` version has `Java` embedded within itself. If you have a `32-bit` PC, you have to download Java [here](https://www.java.com/en/download/).
+**NOTE:** You have to download Java [here](https://www.java.com/en/download/) before playing.
 
 # Setting Up (Source Code)
 To play `90SecondSpaceTraveller` you need Processing version 3.5.3. It can be downloaded [here (32-bit)](http://download.processing.org/processing-3.5.3-windows32.zip) or [here (64-bit)](http://download.processing.org/processing-3.5.3-windows64.zip). After downloading, extract the `.zip` file in a folder somewhere.\
