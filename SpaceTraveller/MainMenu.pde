@@ -14,10 +14,9 @@ public class MainMenu {
 
     public void drawMainMenu() {
         if (this.tutorial) {
-            if (this.tutorial) {
-                this.tutorial = readyToAdventure.executeReturn();
-                if (!this.tutorial) readyToAdventure.resetConversation();
-            }
+            textAlign(LEFT);
+            this.tutorial = readyToAdventure.executeReturn();
+            if (!this.tutorial) readyToAdventure.resetConversation(); textAlign(CENTER, CENTER);
         } else if (active) {
             if (!musicPlayed) {
                 bgmChannel = minim.loadFile("mainmenu_bgm.mp3", 2048);
