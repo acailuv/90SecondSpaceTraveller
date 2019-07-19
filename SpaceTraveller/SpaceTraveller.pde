@@ -1,4 +1,5 @@
 import ddf.minim.*;
+
 // save
 import java.io.Serializable;
 import java.io.FileInputStream;
@@ -28,6 +29,10 @@ public Color aiColor = new Color(100, 100, 255, 100);
 public Ship s;
 public PlanetHandler game;
 private boolean tutorial = true;
+
+/////// CREDITS
+// - Eric Skiff (https://ericskiff.com/music/)
+// - Patrick de Arteaga (patrickdearteaga.com)
 
 void setup() {
     //inits
@@ -110,6 +115,20 @@ void setup() {
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Via, how many [Space Credits] left to be the richest person in the galaxy?"), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Hmmm... Let's see here. You current have [500 Cr.] That means you are [99,500 Credits] away to be the richest traveller in this galaxy. Note that it's nothing compared to the richest person in the whole universe."), aiColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "I know, I know. Everyone has to start somewhere."), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "One last thing. In a touch of a button, you can save your progress by pressing [K]"), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Woah, that's cool. That means I can savescum-"), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "I'm sorry, I can't seem to activate this feature with the thruster and navigation system online."), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Shucks, that means I can only save at an [Interplanetry Station]."), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Also, you can only load your game at the [Main Menu]."), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Hmm.. is there a reason behind this oddly specific conditions?"), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Some space travellers manipulated the save and load system. They had become the richest person in the whole universe in just 3 trips-"), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Wow, that's cool. Please let me maipulate that feature too."), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "However, the way save and load feature works involves the use of Time and Space manipulation. Not only it uses a ton of power, it is also NOT environment friendly."), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "Ah, that means if You let me use the feature whenever I want, The [Time and Space Anomaly] can instantly occur."), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "That's right. That is why, for your own safety, my creator forbids the use of this feature mid-flight."), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "But why can I only load my progress at the [Main Menu]?"), normalColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "Via AI", "Since the [Main Menu] is in a very distant place from the [Time and Space Anomaly], you can safely use the loading feature (which uses the most power out of the two dangerous features) safely."), aiColor);
+    readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "You", "I see, well then it's high time we get going."), normalColor);
     readyToAdventure.insertDialogue(new TextWindow(new Window(0, 400), "", "[Objective] Obtain 100,000 Space Credits (Cr.)"), normalColor, 1);
 
     game = new PlanetHandler();
@@ -173,6 +192,7 @@ void draw() {
     //println("Shop: " + shop.active);
     //println("Game Over: " + gameOver.active);
 }
+
 void keyPressed() {
     if (shop.active == false && s.fuel > 0) {
         if (key == 'w') s.bottomThruster();
@@ -180,40 +200,45 @@ void keyPressed() {
         if (key == 'a') s.brakePulse();
         if (key == 'd') s.mainThruster();
     }
-    if (key == 'l') selectInput("Select a file", "loadGame");
-    if (key == 'k') selectOutput("Save to", "saveGame");
+    if (key == 'l' && main.active) selectInput("Select a file", "loadGame");
+    if (key == 'k' && shop.active) selectOutput("Save to", "saveGame");
     if (key == 'g') s.positionX = 22000; // debug
 }
-void loadGame(File f) {
-  String[] loaddata = loadStrings(f);
-  s.efficiencyLvl = Integer.parseInt(loaddata[0]);
-  s.passiveIncomeLvl = Integer.parseInt(loaddata[1]);
-  s.fuelCapLvl = Integer.parseInt(loaddata[2]);
-  s.fuel = Float.parseFloat(loaddata[3]);
-  s.credits = Integer.parseInt(loaddata[4]);
-  s.inventory.put("Sugar", Integer.parseInt(loaddata[5]));
-  s.inventory.put("Fusion Cell", Integer.parseInt(loaddata[6]));
-  s.inventory.put("Space Cat", Integer.parseInt(loaddata[7]));
-  s.inventory.put("Mystery Goo", Integer.parseInt(loaddata[8]));
-  s.efficiency = s.efficiencyLvl*0.1;
-  s.passiveIncome = (int)(100*pow(2, s.passiveIncomeLvl-1));
-  s.fuelCapacity = (int)(100*pow(2, s.fuelCapLvl-1));
-  main.destroy();
-  cockpit.create();
+
+public void loadGame(File f) {
+    String[] loadData = loadStrings(f);
+    s.efficiencyLvl = Integer.parseInt(loadData[0]);
+    s.passiveIncomeLvl = Integer.parseInt(loadData[1]);
+    s.fuelCapLvl = Integer.parseInt(loadData[2]);
+    s.fuel = Float.parseFloat(loadData[3]);
+    s.credits = Integer.parseInt(loadData[4]);
+    s.inventory.put("Sugar", Integer.parseInt(loadData[5]));
+    s.inventory.put("Fusion Cell", Integer.parseInt(loadData[6]));
+    s.inventory.put("Space Cat", Integer.parseInt(loadData[7]));
+    s.inventory.put("Mystery Goo", Integer.parseInt(loadData[8]));
+    s.efficiency = s.efficiencyLvl*0.1;
+    s.passiveIncome = (int)(100*pow(2, s.passiveIncomeLvl-1));
+    s.fuelCapacity = (int)(100*pow(2, s.fuelCapLvl-1));
+    this.tutorial = Boolean.parseBoolean(loadData[9]);
+    main.destroy();
+    cockpit.create();
 }
-void saveGame(File f) {
-  String[] savedata = new String[9];
-  savedata[0] = Integer.toString(s.efficiencyLvl);
-  savedata[1] = Integer.toString(s.passiveIncomeLvl);
-  savedata[2] = Integer.toString(s.fuelCapLvl);
-  savedata[3] = Float.toString(s.fuel);
-  savedata[4] = Integer.toString(s.credits);
-  savedata[5] = Integer.toString(s.inventory.get("Sugar"));
-  savedata[6] = Integer.toString(s.inventory.get("Fusion Cell"));
-  savedata[7] = Integer.toString(s.inventory.get("Space Cat"));
-  savedata[8] = Integer.toString(s.inventory.get("Mystery Goo"));
-  saveStrings(f, savedata);
+
+public void saveGame(File f) {
+    String[] saveData = new String[10];
+    saveData[0] = Integer.toString(s.efficiencyLvl);
+    saveData[1] = Integer.toString(s.passiveIncomeLvl);
+    saveData[2] = Integer.toString(s.fuelCapLvl);
+    saveData[3] = Float.toString(s.fuel);
+    saveData[4] = Integer.toString(s.credits);
+    saveData[5] = Integer.toString(s.inventory.get("Sugar"));
+    saveData[6] = Integer.toString(s.inventory.get("Fusion Cell"));
+    saveData[7] = Integer.toString(s.inventory.get("Space Cat"));
+    saveData[8] = Integer.toString(s.inventory.get("Mystery Goo"));
+    saveData[9] = Boolean.toString(this.tutorial);
+    saveStrings(f, saveData);
 }
+
 void stop() {
     bgmChannel.close();
     seChannel.close();

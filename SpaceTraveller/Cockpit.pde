@@ -6,7 +6,7 @@ public class Cockpit {
     protected Color theme[];
     protected boolean active = false;
     protected int lostZone = 1000;
-    protected int speedWarning = 50;
+    protected int speedWarning = 40;
 
     private final PFont MAIN_FONT = createFont("Consolas", 16);
     private final PFont NAME_FONT = createFont("Consolas Bold", 24);
@@ -156,13 +156,13 @@ public class Cockpit {
         Window consolePanel = new Window(cp_StartX, cp_StartY, theme[1]);
         consolePanel.drawWindow(cp_EndX, cp_EndY, false);
         fill(255);
-        if(s.velocityX > speedWarning) {
-           text("You are going too fast!", cp_StartX, cp_StartY + padding);
+        if (s.velocityX > speedWarning) {
+            text("You are going too fast!", cp_StartX, cp_StartY + padding);
         }
-        if(s.velocityY > speedWarning) {
-          text("You are ascending too fast!", cp_StartX, cp_StartY + padding*2);
-        } else if(s.velocityY < -speedWarning) {
-          text("You are descending too fast!", cp_StartX, cp_StartY + padding*2);
+        if (s.velocityY > speedWarning) {
+            text("You are ascending too fast!", cp_StartX, cp_StartY + padding*2);
+        } else if (s.velocityY < -speedWarning) {
+            text("You are descending too fast!", cp_StartX, cp_StartY + padding*2);
         }
 
         //progress panel
@@ -221,21 +221,6 @@ public class Cockpit {
             s.positionX = s.finishLine;
             s.positionY = 0;
         }
-
-        ////////// DEBUG FUNCTIONALITY TO TEST SHOP
-        //if (keyPressed) {
-        //    if (key == 'p' || key == 'P') {
-        //        convInProgress = true;
-        //        delay(100);
-        //    }
-        //}
-
-        //if (convInProgress) {
-        //    convInProgress = weHaveArrived.executeReturn();
-        //    if (!convInProgress) {
-        //        transferToShop();
-        //    }
-        //}
     }
 
     public void destroy() {

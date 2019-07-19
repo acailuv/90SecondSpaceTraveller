@@ -36,7 +36,7 @@ public class WinScreen {
         if (!musicPlayed) {
             bgmChannel = minim.loadFile("win_bgm.mp3");
             bgmChannel.setGain(-10);
-            bgmChannel.play();
+            bgmChannel.loop();
             musicPlayed = true;
         }
 

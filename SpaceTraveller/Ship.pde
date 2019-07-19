@@ -1,5 +1,5 @@
 import java.io.Serializable;
-class Ship implements Serializable{
+class Ship implements Serializable {
     protected float mass;
     protected float positionX;
     protected float positionY;

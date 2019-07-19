@@ -53,4 +53,11 @@ public class Conversation {
             return false;
         }
     }
+
+    public void resetConversation() {
+        for (TextWindow tw : conversationQueue) {
+            tw.create();
+        }
+        this.current = 0;
+    }
 }

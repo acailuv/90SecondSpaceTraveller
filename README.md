@@ -1,8 +1,13 @@
 # 90SecondSpaceTraveller
 A Game Project to be graded in Mathematics and Physics for Games. 
 
-# Setting Up
-To play `90SecondSpaceTraveller` you need Processing version 3.5.3. It can be downloaded [here (32-bit)](http://download.processing.org/processing-3.5.3-windows32.zip) or here [here (64-bit)](http://download.processing.org/processing-3.5.3-windows64.zip). After downloading, extract the `.zip` file in a folder somewhere.\
+# Downloading the Game
+Download the latest version [here](https://www.mediafire.com/file/jnpa49a09e9ggq6/SpaceTraveller_v1.0.2b.zip/file). Download and run the executable (`SpaceTraveller.exe`) file. Note that you can choose between `64-bit` and `32-bit` version.
+![SpaceTraveller.exe](https://i.imgur.com/NLR7arH.png)
+The `64-bit` version has `Java` embedded within itself. If you have a `32-bit` PC, you have to download Java [here](https://www.java.com/en/download/).
+
+# Setting Up (Source Code)
+To play `90SecondSpaceTraveller` you need Processing version 3.5.3. It can be downloaded [here (32-bit)](http://download.processing.org/processing-3.5.3-windows32.zip) or [here (64-bit)](http://download.processing.org/processing-3.5.3-windows64.zip). After downloading, extract the `.zip` file in a folder somewhere.\
 The `.zip` folder contains `processing-3.5.3` folder.
 ![Content of zip file](https://i.imgur.com/lqm5wpz.png)
 After extracting the folder, open it and you will see something like this:
@@ -12,7 +17,12 @@ Double click `processing.exe` to open up the application. You will be greeted wi
 You should have a white background when you first start up processing, I changed my theme a while ago. Next, clone (or download) this repository and put it anywhere you like.\
 Click on `File > Open` to open a `processing "sketch"`. Or you can simply press `Ctrl + O` if you are using windows. A file picker should pop up like so:
 ![File Picker](https://i.imgur.com/4pZ5E5V.png)
-Open `SpaceTraveller` folder and open up `SpaceTraveller.pde`. The source code should be loaded and we are ready to go!\
+Open `SpaceTraveller` folder and open up `SpaceTraveller.pde`. The source code should be loaded and we are ready to install audio library.\
+Click on `Tools > Add Tool...` a window will pop up:
+![Add Tool Interface](https://i.imgur.com/OnToPIN.png)
+Search `minim`, and install that library:\
+![Installing Minim](https://i.imgur.com/9hI7DnS.png)
+Close the `Contribution Manager` window.\
 Press on the play button on the upper left.
 ![The Play Button](https://i.imgur.com/hwAxQSG.png)
 The game will play in a moment. Enjoy.

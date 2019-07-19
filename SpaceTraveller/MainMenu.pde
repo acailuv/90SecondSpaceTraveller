@@ -5,6 +5,7 @@ public class MainMenu {
 
     private boolean musicPlayed = false;
     private boolean active = true;
+    private boolean tutorial = false;
 
     public MainMenu() {
         bgmChannel.close();
@@ -12,7 +13,12 @@ public class MainMenu {
     }
 
     public void drawMainMenu() {
-        if (active) {
+        if (this.tutorial) {
+            if (this.tutorial) {
+                this.tutorial = readyToAdventure.executeReturn();
+                if (!this.tutorial) readyToAdventure.resetConversation();
+            }
+        } else if (active) {
             if (!musicPlayed) {
                 bgmChannel = minim.loadFile("mainmenu_bgm.mp3", 2048);
                 bgmChannel.setGain(-15);
@@ -30,7 +36,7 @@ public class MainMenu {
     private void generateMenuButtons() {
         //back panel
         Window backPanel = new Window(width/2-150, 2*height/3);
-        backPanel.drawWindow(300, 150, true);
+        backPanel.drawWindow(300, 195, true);
 
         //play button
         Button playButton = new Button(width/2-125, 2*height/3+25, 250, 45, new Color(0, 255, 0, 255));
@@ -42,11 +48,19 @@ public class MainMenu {
             delay(100);
         }
 
+        //load button
+        Button tutorialButton = new Button(width/2-125, 2*height/3+25+45+5, 250, 45, new Color(0, 0, 255, 255));
+        tutorialButton.font = createFont("Consolas Bold", 24);
+        tutorialButton.drawButton("Tutorial", width/2, 2*height/3+25+23+45+5);
+        if (tutorialButton.isClicked()) {
+            this.tutorial = true;
+            delay(100);
+        }
 
         //exit button
-        Button exitButton = new Button(width/2-125, 2*height/3+25+45+10, 250, 45, new Color(175, 0, 0, 255));
+        Button exitButton = new Button(width/2-125, 2*height/3+25+90+10, 250, 45, new Color(175, 0, 0, 255));
         exitButton.font = createFont("Consolas Bold", 24);
-        exitButton.drawButton("Exit", width/2, 2*height/3+25+45+23+10);
+        exitButton.drawButton("Exit", width/2, 2*height/3+25+90+23+5);
         if (exitButton.isClicked()) {
             exit();
             delay(100);
