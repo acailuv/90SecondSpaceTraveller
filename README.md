@@ -2,7 +2,7 @@
 A Game Project to be graded in Mathematics and Physics for Games. 
 
 # Downloading the Game
-Download the latest version [here](https://www.mediafire.com/file/os3e0mcb1s8f8hi/SpaceTraveller_v1.0.3b.zip/file). Download and run the executable (`SpaceTraveller.exe`) file. Note that you can choose between `64-bit` and `32-bit` version.
+Download the latest version [here](https://www.mediafire.com/file/2i4ckpw2gsti79d/SpaceTraveller_v1.0.4b.zip/file). Download and run the executable (`SpaceTraveller.exe`) file. Note that you can choose between `64-bit` and `32-bit` version.
 ![SpaceTraveller.exe](https://i.imgur.com/NLR7arH.png)
 **NOTE:** You have to download Java [here](https://www.java.com/en/download/) before playing.
 
